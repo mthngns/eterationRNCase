@@ -4,14 +4,10 @@ if (__DEV__) {
 
 import './gesture-handler';
 import React from 'react';
-import {Text, View} from 'react-native';
+import Navigation from './src/navigation/Navigation';
 
 function App(): React.JSX.Element {
-  return (
-    <View>
-      <Text>App</Text>
-    </View>
-  );
+  return <Navigation />;
 }
 
 export default App;
