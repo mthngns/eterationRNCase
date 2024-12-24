@@ -1,3 +1,7 @@
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 import './gesture-handler';
 import React from 'react';
 import {Text, View} from 'react-native';
