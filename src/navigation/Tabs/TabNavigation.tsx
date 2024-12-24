@@ -4,14 +4,21 @@ import HomeStack from '../Stacks/HomeStack';
 import {Favorites} from '../../features/favorites';
 import {RootStackParamList} from '../navigation.types';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Profile} from '../../features/profile';
 import {Basket} from '../../features/basket';
+import {Profile} from '../../features/profile';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
-
 const getTabBarIcon = (name: string) => {
-  return ({focused, size}: {focused: boolean; size: number}) => (
-    <Icon name={focused ? name : `${name}-outline`} size={size} />
+  return ({
+    focused,
+    size,
+    color,
+  }: {
+    focused: boolean;
+    size: number;
+    color: string;
+  }) => (
+    <Icon name={focused ? name : `${name}-outline`} size={size} color={color} />
   );
 };
 
@@ -21,42 +28,34 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarItemStyle: {paddingTop: 5},
         tabBarStyle: {
-          flexDirection: 'column',
-          height: 80,
-          paddingTop: 10,
-          borderTopRightRadius: 30,
-          borderTopLeftRadius: 30,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: -1,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-
-          elevation: 5,
+          borderTopRightRadius: 0,
+          borderTopLeftRadius: 0,
+          borderTopWidth: 1,
+          borderLeftWidth: 0,
+          borderRightWidth: 0,
         },
-        tabBarActiveTintColor: 'red',
-        tabBarInactiveTintColor: 'gray',
       }}>
       <Tab.Screen
         options={{
-          tabBarIcon: getTabBarIcon('home'),
+          tabBarIcon: getTabBarIcon('gamepad-circle'),
         }}
         name="Home"
         component={HomeStack}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: getTabBarIcon('star'),
+          tabBarIcon: getTabBarIcon('heart'),
+          tabBarBadge: '2',
         }}
         name="Favorites"
         component={Favorites}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: getTabBarIcon('basket'),
+          tabBarIcon: getTabBarIcon('shopping'),
+          tabBarBadge: '2',
         }}
         name="Basket"
         component={Basket}

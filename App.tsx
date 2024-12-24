@@ -1,13 +1,13 @@
-if (__DEV__) {
-  require('./ReactotronConfig');
-}
-
-import './gesture-handler';
 import React from 'react';
 import Navigation from './src/navigation/Navigation';
+import {ThemeProvider} from './src/theme/themeContext';
 
-function App(): React.JSX.Element {
-  return <Navigation />;
-}
+const App = () => {
+  return (
+    <ThemeProvider>
+      <Navigation />
+    </ThemeProvider>
+  );
+};
 
 export default App;
