@@ -1,6 +1,7 @@
+/* eslint-disable radix */
 import {createSlice} from '@reduxjs/toolkit';
-import {ExtendedProduct} from '../../../lib/types';
 import {RootState} from '../../../redux/store';
+import {ExtendedProduct} from '../../../types/types';
 
 export interface BasketState {
   productList: ExtendedProduct[];
@@ -8,8 +9,21 @@ export interface BasketState {
 }
 
 const initialState: BasketState = {
-  productList: [],
-  basketAmount: '0.00',
+  productList: [
+    {
+      createdAt: '2023-08-01T12:00:00Z',
+      pcs: '1',
+      name: 'Apple Macbook',
+      image: '',
+      price: '215',
+      description:
+        'Other code such as selectors can use the imported `RootState` type',
+      model: 'Pro',
+      brand: 'Apple',
+      id: '12',
+    },
+  ],
+  basketAmount: '215',
 };
 
 const calculateBasketAmount = (products: ExtendedProduct[]): string => {
@@ -20,7 +34,7 @@ const calculateBasketAmount = (products: ExtendedProduct[]): string => {
       0,
     )
     .toFixed(2)
-    .toString(); // İsteğe bağlı olarak ondalıklı sayıyı iki basamağa yuvarlayabilirsiniz
+    .toString();
 };
 
 const basketSlice = createSlice({
@@ -34,7 +48,7 @@ const basketSlice = createSlice({
     },
     incrementProductQuantity: (state, action) => {
       const product = state.productList.find(
-        product => product.id === action.payload,
+        item => item.id === action.payload,
       );
       if (product) {
         product.pcs = (parseInt(product.pcs) + 1).toString();
@@ -43,7 +57,7 @@ const basketSlice = createSlice({
     },
     decrementProductQuantity: (state, action) => {
       const product = state.productList.find(
-        product => product.id === action.payload,
+        item => item.id === action.payload,
       );
       if (product) {
         if (parseInt(product.pcs) > 1) {
@@ -51,7 +65,7 @@ const basketSlice = createSlice({
           state.basketAmount = calculateBasketAmount(state.productList);
         } else {
           state.productList = state.productList.filter(
-            product => product.id !== action.payload,
+            item => item.id !== action.payload,
           );
           state.basketAmount = calculateBasketAmount(state.productList);
         }
