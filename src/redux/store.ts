@@ -13,6 +13,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import reactotron from '../../ReactotronConfig';
+import {api} from './api';
+import {productsReducer} from '../features/products/store/products';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +23,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   basket: basketReducer,
+  products: productsReducer,
+  [api.reducerPath]: api.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -32,7 +36,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(api.middleware),
   enhancers: getDefaultEnhancers => {
     const reactotronEnhancer = __DEV__ ? [reactotron.createEnhancer!()] : [];
     return getDefaultEnhancers().concat(reactotronEnhancer);
