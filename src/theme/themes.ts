@@ -4,7 +4,7 @@ export const LightTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#dc2626',
+    primary: '#2563eb',
     background: '#f5f5f5',
     card: '#ffffff',
     text: '#262626',
@@ -17,7 +17,7 @@ export const CustomDarkTheme: Theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    primary: '#b91c1c',
+    primary: '#2563eb',
     background: '#0a0a0a',
     card: '#171717',
     text: '#d4d4d4',
