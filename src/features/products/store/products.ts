@@ -7,7 +7,7 @@ export interface ProductsState {
 }
 
 const initialState: ProductsState = {
-  products: null,
+  products: [],
 };
 
 const productsSlice = createSlice({
