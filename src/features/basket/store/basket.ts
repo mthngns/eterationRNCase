@@ -9,21 +9,8 @@ export interface BasketState {
 }
 
 const initialState: BasketState = {
-  productList: [
-    {
-      createdAt: '2023-08-01T12:00:00Z',
-      pcs: '1',
-      name: 'Apple Macbook',
-      image: '',
-      price: '215',
-      description:
-        'Other code such as selectors can use the imported `RootState` type',
-      model: 'Pro',
-      brand: 'Apple',
-      id: '12',
-    },
-  ],
-  basketAmount: '215',
+  productList: [],
+  basketAmount: '0,00',
 };
 
 const calculateBasketAmount = (products: ExtendedProduct[]): string => {
@@ -43,8 +30,13 @@ const basketSlice = createSlice({
   reducers: {
     resetBasketState: () => initialState,
     addItemToBasket: (state, action) => {
-      state.productList.push(action.payload);
-      state.basketAmount = calculateBasketAmount(state.productList);
+      const existingProduct = state.productList.find(
+        item => item.id === action.payload.id,
+      );
+      if (!existingProduct) {
+        state.productList.push(action.payload);
+        state.basketAmount = calculateBasketAmount(state.productList);
+      }
     },
     incrementProductQuantity: (state, action) => {
       const product = state.productList.find(
