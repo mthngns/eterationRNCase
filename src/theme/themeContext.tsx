@@ -6,8 +6,13 @@ import React, {
   useEffect,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ThemeContextType} from './themeContext.types';
-import {CustomDarkTheme, LightTheme} from '../theme/themes';
+import {LightTheme, DarkTheme, CustomTheme} from './themes';
+
+interface ThemeContextType {
+  theme: CustomTheme;
+  isDarkTheme: boolean;
+  toggleTheme: () => void;
+}
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -22,16 +27,16 @@ export const ThemeProvider = ({children}: {children: ReactNode}) => {
   };
 
   const toggleTheme = async () => {
-    const selectedTheme = !isDarkTheme;
-    setIsDarkTheme(selectedTheme);
-    await AsyncStorage.setItem('user-theme', selectedTheme ? 'dark' : 'light');
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    await AsyncStorage.setItem('user-theme', newTheme ? 'dark' : 'light');
   };
 
   useEffect(() => {
     loadTheme();
   }, []);
 
-  const theme = isDarkTheme ? CustomDarkTheme : LightTheme;
+  const theme = isDarkTheme ? DarkTheme : LightTheme;
 
   return (
     <ThemeContext.Provider value={{theme, isDarkTheme, toggleTheme}}>
