@@ -3,13 +3,14 @@ import {CustomTheme} from '../../../theme/themes';
 import CustomText from '../../../components/CustomText';
 import {commonStyles} from '../../../theme/commonStyles';
 import {useThemeContext} from '../../../theme/themeContext';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Box from '../../../components/Box';
 
 const ProfileBar = () => {
   const {theme} = useThemeContext();
   return (
-    <View style={styles(theme).container}>
+    <Box style={styles(theme).container}>
       <CustomText style={styles(theme).text}>Eteration</CustomText>
       <TouchableOpacity style={styles(theme).iconContainer}>
         <Icon
@@ -18,7 +19,7 @@ const ProfileBar = () => {
           color={theme.colors.light}
         />
       </TouchableOpacity>
-    </View>
+    </Box>
   );
 };
 

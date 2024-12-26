@@ -5,6 +5,7 @@ export type HomeStackParamList = {
   ProductDetail: {
     id: string;
   };
+  Search: undefined;
 };
 
 export type RootStackParamList = {
@@ -23,3 +24,5 @@ export type ProductDetailProps = StackScreenProps<
   HomeStackParamList,
   'ProductDetail'
 >;
+
+export type SearchProps = StackScreenProps<HomeStackParamList, 'Search'>;
