@@ -3,23 +3,9 @@ import {CustomTheme} from '../../../theme/themes';
 import {commonStyles} from '../../../theme/commonStyles';
 import {useThemeContext} from '../../../theme/themeContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  TextInputProps,
-  TouchableOpacity,
-} from 'react-native';
+import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
 
-interface SearchInputProps extends TextInputProps {
-  onIconPress?: () => void;
-}
-
-const SearchInput: React.FC<SearchInputProps> = ({
-  onIconPress,
-  style,
-  ...props
-}) => {
+const SearchInput: React.FC<TextInputProps> = ({style, ...props}) => {
   const {theme} = useThemeContext();
   return (
     <View
@@ -36,7 +22,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         {...props}
       />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={onIconPress}
         style={styles(theme).filterMenuButton}>
         <Icon
@@ -45,7 +31,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           color={theme.colors.primary}
           style={styles(theme).filterMenuIcon}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -59,6 +45,7 @@ const styles = (theme: CustomTheme) =>
       overflow: 'hidden',
       paddingLeft: theme.size.sm,
       columnGap: theme.size.xs,
+      backgroundColor: theme.colors.card,
     },
     icon: {
       color: theme.colors.secondaryText,
@@ -67,6 +54,7 @@ const styles = (theme: CustomTheme) =>
       flex: 1,
       fontSize: theme.size.base,
       color: theme.colors.text,
+      height: 40,
     },
     filterMenuButton: {
       ...commonStyles.center,

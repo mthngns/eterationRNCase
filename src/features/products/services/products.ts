@@ -16,6 +16,10 @@ export const productsApi = api.injectEndpoints({
       },
     }),
 
+    getProductsBySearchTerm: builder.query<Product[], string>({
+      query: search => `/${END_POINTS.products}?name=${search}`,
+    }),
+
     getProductById: builder.query<Product, string>({
       query: id => `/${END_POINTS.products}/${id}`,
     }),
@@ -24,4 +28,8 @@ export const productsApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {useGetProductByIdQuery, useGetAllProductListQuery} = productsApi;
+export const {
+  useGetProductByIdQuery,
+  useGetProductsBySearchTermQuery,
+  useGetAllProductListQuery,
+} = productsApi;
