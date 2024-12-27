@@ -22,6 +22,11 @@ export interface SortMethod {
   order: 'asc' | 'desc';
 }
 
+export interface FilterMethod {
+  brands: string[];
+  models: string[];
+}
+
 export type SortBy = {
   'New to old': {sortBy: 'createdAt'; order: 'desc'};
   'Old to new': {sortBy: 'createdAt'; order: 'asc'};

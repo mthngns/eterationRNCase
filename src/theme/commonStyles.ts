@@ -1,14 +1,16 @@
 import {ViewStyle} from 'react-native';
 
-// Common styles için tip tanımı
 type CommonStylesType = {
   center: ViewStyle;
   flexCenter: ViewStyle;
   rowCenter: ViewStyle;
+  flexBox: ViewStyle;
 };
 
-// Stil nesnesini bu tipe bağlayarak oluşturun
 export const commonStyles: CommonStylesType = {
+  flexBox: {
+    flex: 1,
+  },
   center: {
     alignItems: 'center',
     justifyContent: 'center',
