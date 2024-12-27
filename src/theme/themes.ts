@@ -25,6 +25,7 @@ export interface CustomTheme extends Theme {
     lg: number;
     xl: number;
     xxl: number;
+    huge: number;
     borderXs: number;
     borderSm: number;
   };
@@ -39,6 +40,7 @@ export const sizes: CustomTheme['size'] = {
   lg: 20,
   xl: 24,
   xxl: 32,
+  huge: 48,
   borderXs: 0.5,
   borderSm: 1,
 };
@@ -56,7 +58,7 @@ export const LightTheme: CustomTheme = {
     border: '#e5e5e5',
     light: '#f5f5f5',
     success: '#22c55e',
-    warning: '#facc15',
+    warning: '#d77d00',
     error: '#ef4444',
     info: '#3b82f6',
     lightText: '#ffffff',

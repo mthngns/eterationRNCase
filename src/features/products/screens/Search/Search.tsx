@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {CustomTheme} from '../../../../theme/themes';
 import SearchInput from '../../components/SearchInput';
@@ -30,7 +31,9 @@ const Search = ({navigation}: SearchProps) => {
   );
 
   return (
-    <KeyboardAvoidingView style={styles(theme).avoidingView}>
+    <KeyboardAvoidingView
+      style={styles(theme).avoidingView}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles(theme).container}>
           <View style={styles(theme).searchContainer}>
@@ -41,7 +44,6 @@ const Search = ({navigation}: SearchProps) => {
               value={searchQuery}
               onChangeText={setSearchQuery}
               returnKeyType="done"
-              keyboardType="default"
             />
             <TouchableOpacity
               style={styles(theme).button}
@@ -68,6 +70,11 @@ const Search = ({navigation}: SearchProps) => {
                 )}
                 contentContainerStyle={styles(theme).listContent}
               />
+            )}
+            {error && (
+              <CustomText style={styles(theme).errorText}>
+                No results found. Please try something else.
+              </CustomText>
             )}
           </View>
         </SafeAreaView>
@@ -117,7 +124,7 @@ const styles = (theme: CustomTheme) =>
       flex: 1,
     },
     errorText: {
-      color: theme.colors.error,
+      color: theme.colors.warning,
       textAlign: 'center',
     },
     listContent: {

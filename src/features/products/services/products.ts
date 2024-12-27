@@ -23,6 +23,15 @@ export const productsApi = api.injectEndpoints({
         const sortQuery = `/${END_POINTS.products}?page=${page}&limit=${limit}&sortBy=${sort}&order=${order}`;
         const brandsQuery = `&brand=${brands.join('|')}`;
         const modelsQuery = `&model=${models.join('|')}`;
+        if (brands.length === 0 && models.length === 0) {
+          return sortQuery;
+        }
+        if (brands.length === 0) {
+          return `${sortQuery}${modelsQuery}`;
+        }
+        if (models.length === 0) {
+          return `${sortQuery}${brandsQuery}`;
+        }
         return `${sortQuery}${brandsQuery}${modelsQuery}`;
       },
       forceRefetch({currentArg, previousArg}) {

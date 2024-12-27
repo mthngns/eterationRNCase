@@ -17,21 +17,11 @@ const SearchInput: React.FC<TextInputProps> = ({style, ...props}) => {
       <Icon name="magnify" size={20} style={styles(theme).icon} />
 
       <TextInput
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
         style={styles(theme).input}
         placeholderTextColor={theme.colors.secondaryText}
         {...props}
       />
-
-      {/* <TouchableOpacity
-        onPress={onIconPress}
-        style={styles(theme).filterMenuButton}>
-        <Icon
-          name="filter-menu-outline"
-          size={24}
-          color={theme.colors.primary}
-          style={styles(theme).filterMenuIcon}
-        />
-      </TouchableOpacity> */}
     </View>
   );
 };
