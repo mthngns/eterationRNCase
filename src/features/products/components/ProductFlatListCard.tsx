@@ -32,7 +32,7 @@ const ProductFlatListCard: React.FC<ProductFlatListCardProps> = ({
   const basket = useSelector(getBasket);
   const isInBasket = basket.productList.some(product => product.id === item.id);
   const {width} = Dimensions.get('window');
-  const itemWidth = (width - theme.size.xs * 3) / 2;
+  const itemWidth = (width - theme.size.xs * 6) / 2;
   const itemHeight = itemWidth * 1;
 
   const handleAddItemToBasket = (product: Product) => {
@@ -40,7 +40,11 @@ const ProductFlatListCard: React.FC<ProductFlatListCardProps> = ({
   };
 
   return (
-    <View style={[styles(theme).cardContainer, {minHeight: itemHeight}]}>
+    <View
+      style={[
+        styles(theme).cardContainer,
+        {minHeight: itemHeight, maxWidth: itemWidth},
+      ]}>
       <TouchableOpacity
         style={styles(theme).touchableArea}
         onPress={() => onPress(item)}>

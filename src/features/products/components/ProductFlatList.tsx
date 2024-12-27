@@ -4,11 +4,13 @@ import {CustomTheme} from '../../../theme/themes';
 import ProductFlatListCard from './ProductFlatListCard';
 import {useThemeContext} from '../../../theme/themeContext';
 import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
+import LoaderAndError from '../../../components/LoaderEndError';
 
 interface ProductFlatListProps {
   data: Product[] | undefined;
-  isFetching: boolean;
   isLoading: boolean;
+  isError: boolean;
+  isFetching: boolean;
   onRefresh: () => void;
   onLoadMore: () => void;
   onItemPress: (item: Product) => void;
@@ -18,11 +20,22 @@ const ProductFlatList: React.FC<ProductFlatListProps> = ({
   data,
   isFetching,
   isLoading,
+  isError,
   onRefresh,
   onLoadMore,
   onItemPress,
 }) => {
   const {theme} = useThemeContext();
+
+  if (!data && (isLoading || isError || isFetching)) {
+    return (
+      <LoaderAndError
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+      />
+    );
+  }
 
   return (
     <FlatList
@@ -62,7 +75,7 @@ const styles = (theme: CustomTheme) =>
       paddingBottom: theme.size.lg,
     },
     footer: {
-      height: 50,
+      height: 48,
     },
     indicator: {
       marginVertical: theme.size.xl,

@@ -1,4 +1,4 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {api} from './api';
 import {
   persistStore,
   persistReducer,
@@ -9,12 +9,13 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import reactotron from '../../ReactotronConfig';
-import {api} from './api';
 import {basketReducer} from '../features/basket/store/basket';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {filtersReducer} from '../features/products/store/filters';
 import {productsReducer} from '../features/products/store/products';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const persistConfig = {
   key: 'root',
@@ -24,6 +25,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   basket: basketReducer,
   products: productsReducer,
+  filters: filtersReducer,
   [api.reducerPath]: api.reducer,
 });
 
