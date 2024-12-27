@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {CustomTheme} from '../../../theme/themes';
 import brandIcons from '../../../utils/brandIcons';
 import CheckBox from '../../../components/CheckBox';
@@ -20,12 +20,18 @@ const FilterOption: React.FC<FilterOptionProps> = ({
   onSelect,
 }) => {
   const {theme} = useThemeContext();
+  const sortedOptions = useMemo(() => {
+    return [
+      ...options.filter(option => selectedOptions.includes(option)),
+      ...options.filter(option => !selectedOptions.includes(option)),
+    ];
+  }, [options, selectedOptions]);
 
   return (
     <View style={styles(theme).container}>
       <FlatList
         style={styles(theme).listWrapper}
-        data={options}
+        data={sortedOptions}
         keyExtractor={item => item}
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
@@ -67,6 +73,7 @@ const styles = (theme: CustomTheme) =>
     container: {
       flex: 1,
       marginBottom: theme.size.md,
+      backgroundColor: theme.colors.card,
     },
     listWrapper: {
       borderWidth: theme.size.borderSm,

@@ -5,15 +5,15 @@ import {ActivityIndicator, View, StyleSheet} from 'react-native';
 import {commonStyles} from '../theme/commonStyles';
 
 interface LoaderAndErrorProps {
-  isLoading: boolean;
-  isError: any;
-  isFetching: boolean;
+  isLoading?: boolean;
+  isError?: any;
+  isFetching?: boolean;
 }
 
 const LoaderAndError: React.FC<LoaderAndErrorProps> = ({
-  isLoading,
-  isError,
-  isFetching,
+  isLoading = false,
+  isError = false,
+  isFetching = false,
 }) => {
   const {theme} = useThemeContext();
 
