@@ -56,16 +56,6 @@ const styles = (theme: CustomTheme) =>
       color: theme.colors.text,
       height: 40,
     },
-    filterMenuButton: {
-      ...commonStyles.center,
-      padding: theme.size.xs,
-      borderLeftWidth: theme.size.borderSm,
-      borderColor: theme.colors.border,
-    },
-    filterMenuIcon: {
-      marginHorizontal: theme.size.xxs,
-      color: theme.colors.primary,
-    },
   });
 
 export default SearchInput;
