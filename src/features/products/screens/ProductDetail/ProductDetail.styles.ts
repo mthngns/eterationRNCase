@@ -4,13 +4,6 @@ import {commonStyles} from '../../../../theme/commonStyles';
 
 export const styles = (theme: CustomTheme) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-      padding: theme.size.xs,
-      rowGap: theme.size.md,
-      justifyContent: 'space-between',
-    },
     headerBox: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -108,6 +101,5 @@ export const styles = (theme: CustomTheme) =>
       borderColor: theme.colors.border,
       borderRadius: theme.size.sm,
       backgroundColor: theme.colors.card,
-      padding: theme.size.md,
     },
   });

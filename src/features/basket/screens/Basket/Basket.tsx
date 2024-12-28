@@ -1,21 +1,21 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {styles} from './Basket.styles';
-import {useAppDispatch} from '../../../../redux/store';
 import {useSelector} from 'react-redux';
+import Box from '../../../../components/Box';
+import {useAppDispatch} from '../../../../redux/store';
+import CustomText from '../../../../components/CustomText';
+import {View, TouchableOpacity, FlatList} from 'react-native';
+import ThemedButton from '../../../../components/ThemedButton';
 import {getBasket, resetBasketState} from '../../store/basket';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useThemeContext} from '../../../../theme/themeContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from '../../../../components/CustomText';
-import Box from '../../../../components/Box';
-import ThemedButton from '../../../../components/ThemedButton';
-import ListEmptyState from '../../../../components/ListEmptyState/ListEmptyState';
-import HorizontalProductCard from '../../../../components/HorizontalProductCard/HorizontalProductCard';
 import {BasketProps} from '../../../../navigation/navigation.types';
+import ScreenHeader from '../../../../components/ScreenHeader/ScreenHeader';
+import ListEmptyState from '../../../../components/ListEmptyState/ListEmptyState';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
+import HorizontalProductCard from '../../../../components/HorizontalProductCard/HorizontalProductCard';
 
 export const Basket = ({navigation}: BasketProps) => {
-  const insets = useSafeAreaInsets();
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
   const basket = useSelector(getBasket);
@@ -25,19 +25,8 @@ export const Basket = ({navigation}: BasketProps) => {
     dispatch(resetBasketState());
   };
   return (
-    <View
-      style={[
-        styles(theme).container,
-        {paddingTop: insets.top, paddingBottom: theme.size.md},
-      ]}>
-      <View style={styles(theme).header}>
-        <Text style={styles(theme).headerTitle}>Basket</Text>
-        <Icon
-          name="shopping"
-          size={theme.size.xl}
-          color={theme.colors.primary}
-        />
-      </View>
+    <CustomSafeArea>
+      <ScreenHeader title="Basket" rightIcon="shopping" />
       <View style={styles(theme).content}>
         <TouchableOpacity
           disabled={isBasketEmpty}
@@ -57,10 +46,10 @@ export const Basket = ({navigation}: BasketProps) => {
         <FlatList
           data={basket.productList}
           style={styles(theme).listContainer}
-          contentContainerStyle={styles(theme).listContentContainer}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <HorizontalProductCard
+              forUsingBasket
               product={item}
               onPress={() =>
                 navigation.navigate('Home', {
@@ -94,6 +83,6 @@ export const Basket = ({navigation}: BasketProps) => {
           />
         </View>
       </View>
-    </View>
+    </CustomSafeArea>
   );
 };

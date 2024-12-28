@@ -1,48 +1,68 @@
 import React from 'react';
-import Box from '../../../../components/Box';
-import {styles} from './ProductDetail.styles';
-import brandIcons from '../../../../utils/brandIcons';
-import CustomText from '../../../../components/CustomText';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useThemeContext} from '../../../../theme/themeContext';
-import {useGetProductByIdQuery} from '../../services/products';
-import LoaderAndError from '../../../../components/LoaderEndError';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {View, ScrollView, Image, TouchableOpacity, Alert} from 'react-native';
-import {ProductDetailProps} from '../../../../navigation/navigation.types';
-import {useAppDispatch} from '../../../../redux/store';
 import {
   addItemToBasket,
   getBasket,
   removeItemToBasket,
 } from '../../../basket/store/basket';
 import {useSelector} from 'react-redux';
+import Box from '../../../../components/Box';
+import {styles} from './ProductDetail.styles';
+import brandIcons from '../../../../utils/brandIcons';
+import {useAppDispatch} from '../../../../redux/store';
+import CustomText from '../../../../components/CustomText';
+import {useThemeContext} from '../../../../theme/themeContext';
+import {useGetProductByIdQuery} from '../../services/products';
+import LoaderAndError from '../../../../components/LoaderEndError';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ProductDetailProps} from '../../../../navigation/navigation.types';
+import {View, ScrollView, Image, TouchableOpacity, Alert} from 'react-native';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
+import ScreenHeader from '../../../../components/ScreenHeader/ScreenHeader';
+import {
+  addItemToFav,
+  getFavorites,
+  removeItemToFav,
+} from '../../../favorites/store/favorites';
 
 export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
-  const insets = useSafeAreaInsets();
   const {id} = route.params;
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
   const {data: product, isLoading, isError} = useGetProductByIdQuery(id);
   const basket = useSelector(getBasket);
+  const favorites = useSelector(getFavorites);
   const isInBasket = basket.productList.some(item => item.id === product?.id);
+  const isInFav = favorites.productList.some(item => item.id === product?.id);
 
   const handleAddItemToBasket = () => {
     if (product) {
       dispatch(addItemToBasket({...product, pcs: '1'}));
-      Alert.alert('Added to basket.');
+      Alert.alert('Product added to basket.');
     }
   };
-  const handleRemoveItem = () => {
+  const handleRemoveItemToBasket = () => {
     if (product) {
       dispatch(removeItemToBasket(product.id));
-      Alert.alert('Removed to basket.');
+      Alert.alert('Product removed to basket.');
+    }
+  };
+
+  const handleAddItemToFav = () => {
+    if (product) {
+      dispatch(addItemToFav({...product, pcs: '1'}));
+      Alert.alert('Product added to favorites.');
+    }
+  };
+  const handleRemoveItemToFav = () => {
+    if (product) {
+      dispatch(removeItemToFav(product.id));
+      Alert.alert('Product removed to favorites.');
     }
   };
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles(theme).container}>
+      <CustomSafeArea>
         <View style={styles(theme).headerBox}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -58,13 +78,13 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
           </TouchableOpacity>
         </View>
         <LoaderAndError isLoading={isLoading} />
-      </SafeAreaView>
+      </CustomSafeArea>
     );
   }
 
   if (isError) {
     return (
-      <SafeAreaView style={styles(theme).container}>
+      <CustomSafeArea>
         <View style={styles(theme).headerBox}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -80,32 +100,15 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
           </TouchableOpacity>
         </View>
         <LoaderAndError isError={isError} />
-      </SafeAreaView>
+      </CustomSafeArea>
     );
   }
 
   return (
-    <View
-      style={[
-        styles(theme).container,
-        {paddingTop: insets.top, paddingBottom: theme.size.md},
-      ]}>
+    <CustomSafeArea>
       {product && (
         <>
-          <View style={styles(theme).headerBox}>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles(theme).headerButton}>
-              <Icon
-                name="chevron-left"
-                size={theme.size.xxl}
-                color={theme.colors.text}
-              />
-              <CustomText style={styles(theme).headerTitle}>
-                Go Back to Product List
-              </CustomText>
-            </TouchableOpacity>
-          </View>
+          <ScreenHeader title="Product Detail" />
           <Image
             source={{uri: product.image}}
             style={styles(theme).image}
@@ -158,16 +161,20 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
             <View style={styles(theme).actionBox}>
               <TouchableOpacity
                 style={styles(theme).buttonBox}
-                onPress={isInBasket ? handleRemoveItem : handleAddItemToBasket}>
+                onPress={
+                  isInBasket ? handleRemoveItemToBasket : handleAddItemToBasket
+                }>
                 <Icon
                   name={isInBasket ? 'shopping' : 'shopping-outline'}
                   size={theme.size.xl}
                   color={theme.colors.primary}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles(theme).buttonBox}>
+              <TouchableOpacity
+                style={styles(theme).buttonBox}
+                onPress={isInFav ? handleRemoveItemToFav : handleAddItemToFav}>
                 <Icon
-                  name="heart-outline"
+                  name={isInFav ? 'heart' : 'heart-outline'}
                   size={theme.size.xl}
                   color={theme.colors.primary}
                 />
@@ -176,7 +183,7 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
           </View>
         </>
       )}
-    </View>
+    </CustomSafeArea>
   );
 };
 export default ProductDetail;

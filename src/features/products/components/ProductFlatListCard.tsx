@@ -7,16 +7,25 @@ import {
   Dimensions,
   View,
 } from 'react-native';
+import {
+  addItemToBasket,
+  getBasket,
+  removeItemToBasket,
+} from '../../basket/store/basket';
+import {
+  addItemToFav,
+  getFavorites,
+  removeItemToFav,
+} from '../../favorites/store/favorites';
 import {useSelector} from 'react-redux';
 import {Product} from '../../../types/types';
 import {CustomTheme} from '../../../theme/themes';
-import brandIcons from '../../../utils/brandIcons';
 import {useAppDispatch} from '../../../redux/store';
 import {commonStyles} from '../../../theme/commonStyles';
 import {useThemeContext} from '../../../theme/themeContext';
 import ThemedButton from '../../../components/ThemedButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {addItemToBasket, getBasket} from '../../basket/store/basket';
+import BrandBadge from '../../../components/BrandBadge/BrandBadge';
 
 interface ProductFlatListCardProps {
   item: Product;
@@ -30,14 +39,24 @@ const ProductFlatListCard: React.FC<ProductFlatListCardProps> = ({
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
   const basket = useSelector(getBasket);
+  const favorites = useSelector(getFavorites);
+
   const isInBasket = basket.productList.some(product => product.id === item.id);
+  const isInFav = favorites.productList.some(product => product.id === item.id);
+
+  const handleBasketButtonPress = () => {
+    isInBasket
+      ? dispatch(removeItemToBasket(item.id))
+      : dispatch(addItemToBasket({...item, pcs: '1'}));
+  };
+
+  const handleFavIconPress = () => {
+    isInFav ? dispatch(removeItemToFav(item.id)) : dispatch(addItemToFav(item));
+  };
+
   const {width} = Dimensions.get('window');
   const itemWidth = (width - theme.size.xs * 4) / 2;
   const itemHeight = itemWidth * 1;
-
-  const handleAddItemToBasket = (product: Product) => {
-    dispatch(addItemToBasket({...product, pcs: '1'}));
-  };
 
   return (
     <View
@@ -48,42 +67,28 @@ const ProductFlatListCard: React.FC<ProductFlatListCardProps> = ({
       <TouchableOpacity
         style={styles(theme).touchableArea}
         onPress={() => onPress(item)}>
-        <View style={styles(theme).brandContainer}>
-          <Image
-            source={
-              brandIcons[item.brand.replaceAll(' ', '')] || brandIcons.Ferrari
-            }
-            style={styles(theme).brandIcon}
-            resizeMode="contain"
-          />
-          <Text style={styles(theme).productBrand}>{item.brand}</Text>
-        </View>
-
         <Image
           source={{uri: item.image}}
           style={styles(theme).productImage}
           resizeMode="cover"
         />
         <View style={styles(theme).infoContainer}>
-          <View>
-            <Text style={styles(theme).productModel}>{item.model}</Text>
-            <Text style={styles(theme).productName}>{item.name}</Text>
-          </View>
+          <BrandBadge product={item} iconColor={theme.colors.primary} />
+          <Text style={styles(theme).productName}>{item.name}</Text>
           <Text style={styles(theme).productPrice}>${item.price}</Text>
         </View>
       </TouchableOpacity>
       <View style={styles(theme).buttonContainer}>
         <ThemedButton
-          disabled={isInBasket}
-          onPress={() => handleAddItemToBasket(item)}
+          onPress={handleBasketButtonPress}
           style={styles(theme).button}
           textStyle={styles(theme).buttonText}
           design={isInBasket ? 'outline' : 'inline'}
-          title={isInBasket ? 'In Basket' : 'Add to Basket'}
+          title={isInBasket ? 'Remove to Basket' : 'Add to Basket'}
         />
-        <TouchableOpacity onPress={() => console.log('Added to fav')}>
+        <TouchableOpacity onPress={handleFavIconPress}>
           <Icon
-            name="heart-outline"
+            name={isInFav ? 'heart' : 'heart-outline'}
             size={theme.size.xl}
             color={theme.colors.primary}
           />
@@ -101,9 +106,11 @@ const styles = (theme: CustomTheme) =>
       borderRadius: theme.size.xs,
       borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,
+      overflow: 'hidden',
     },
     touchableArea: {
       flex: 1,
+      overflow: 'hidden',
     },
     brandContainer: {
       ...commonStyles(theme).rowCenter,
@@ -129,6 +136,7 @@ const styles = (theme: CustomTheme) =>
       flex: 1,
       justifyContent: 'space-between',
       padding: theme.size.xs,
+      rowGap: theme.size.xs,
     },
     productModel: {
       fontSize: theme.size.base,

@@ -16,6 +16,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {filtersReducer} from '../features/products/store/filters';
 import {productsReducer} from '../features/products/store/products';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {favoritesReducer} from '../features/favorites/store/favorites';
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   basket: basketReducer,
   products: productsReducer,
   filters: filtersReducer,
+  favorites: favoritesReducer,
   [api.reducerPath]: api.reducer,
 });
 

@@ -6,12 +6,15 @@ import React from 'react';
 import Navigation from './src/navigation/Navigation';
 import {ThemeProvider} from './src/theme/themeContext';
 import {ReduxProvider} from './src/redux/provider';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
   return (
     <ThemeProvider>
       <ReduxProvider>
-        <Navigation />
+        <GestureHandlerRootView>
+          <Navigation />
+        </GestureHandlerRootView>
       </ReduxProvider>
     </ThemeProvider>
   );

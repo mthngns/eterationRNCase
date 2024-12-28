@@ -1,5 +1,5 @@
 import CustomText from '../CustomText';
-import {Image, View} from 'react-native';
+import {Image, ImageStyle, View} from 'react-native';
 import React, {ReactElement} from 'react';
 import {Product} from '../../types/types';
 import {styles} from './BrandBadge.styles';
@@ -8,9 +8,10 @@ import {useThemeContext} from '../../theme/themeContext';
 
 interface BrandPageProps {
   product: Product;
+  iconColor?: ImageStyle['tintColor'];
 }
 
-const BrandBadge = ({product}: BrandPageProps): ReactElement => {
+const BrandBadge = ({product, iconColor}: BrandPageProps): ReactElement => {
   const {theme} = useThemeContext();
   return (
     <View style={styles(theme).badgeBox}>
@@ -18,7 +19,10 @@ const BrandBadge = ({product}: BrandPageProps): ReactElement => {
         source={
           brandIcons[product.brand.replaceAll(' ', '')] || brandIcons.Ferrari
         }
-        style={styles(theme).brandIcon}
+        style={[
+          styles(theme).brandIcon,
+          iconColor ? {tintColor: iconColor} : null,
+        ]}
         resizeMode="contain"
       />
       <CustomText
