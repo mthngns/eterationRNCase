@@ -1,15 +1,14 @@
 import React from 'react';
 import {styles} from './Basket.styles';
 import {useSelector} from 'react-redux';
-import Box from '../../../../components/Box';
+import {View, FlatList} from 'react-native';
+import {Product} from '../../../../types/types';
 import {useAppDispatch} from '../../../../redux/store';
-import CustomText from '../../../../components/CustomText';
-import {View, TouchableOpacity, FlatList} from 'react-native';
-import ThemedButton from '../../../../components/ThemedButton';
 import {getBasket, resetBasketState} from '../../store/basket';
 import {useThemeContext} from '../../../../theme/themeContext';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CheckoutBox from '../../components/CheckoutBox/CheckoutBox';
 import {BasketProps} from '../../../../navigation/navigation.types';
+import IconButton from '../../../../components/IconButton/IconButton';
 import ScreenHeader from '../../../../components/ScreenHeader/ScreenHeader';
 import ListEmptyState from '../../../../components/ListEmptyState/ListEmptyState';
 import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
@@ -24,25 +23,22 @@ export const Basket = ({navigation}: BasketProps) => {
   const handleResetBasket = () => {
     dispatch(resetBasketState());
   };
+  const handleNavigateDetailPage = (id: Product['id']) => {
+    navigation.navigate('Home', {
+      screen: 'ProductDetail',
+      params: {id: id},
+    });
+  };
   return (
     <CustomSafeArea>
       <ScreenHeader title="Basket" rightIcon="shopping" />
       <View style={styles(theme).content}>
-        <TouchableOpacity
+        <IconButton
+          icon="refresh"
+          title="Reset Basket"
           disabled={isBasketEmpty}
-          style={styles(theme).buttonBox}
-          onPress={handleResetBasket}>
-          <Icon
-            name="refresh"
-            size={theme.size.xl}
-            color={
-              isBasketEmpty ? theme.colors.disabledText : theme.colors.primary
-            }
-          />
-          <CustomText style={styles(theme).secondaryText}>
-            Reset Basket
-          </CustomText>
-        </TouchableOpacity>
+          onPress={handleResetBasket}
+        />
         <FlatList
           data={basket.productList}
           style={styles(theme).listContainer}
@@ -51,37 +47,16 @@ export const Basket = ({navigation}: BasketProps) => {
             <HorizontalProductCard
               forUsingBasket
               product={item}
-              onPress={() =>
-                navigation.navigate('Home', {
-                  screen: 'ProductDetail',
-                  params: {id: item.id},
-                })
-              }
+              onPress={() => handleNavigateDetailPage(item.id)}
             />
           )}
           ListEmptyComponent={<ListEmptyState title="Basket is empty..." />}
         />
-        <View style={styles(theme).amountBox}>
-          <Box style={styles(theme).boxItem}>
-            <CustomText style={styles(theme).priceTitle}>
-              Total price
-            </CustomText>
-            <CustomText style={styles(theme).price} numberOfLines={1}>
-              $ {basket.basketAmount}
-            </CustomText>
-          </Box>
-          <ThemedButton
-            disabled={isBasketEmpty}
-            title="Checkout"
-            design="outline"
-            style={styles(theme).checkoutButton}
-            textStyle={[
-              styles(theme).checkoutButtonText,
-              isBasketEmpty && {color: theme.colors.disabledText},
-            ]}
-            onPress={handleResetBasket}
-          />
-        </View>
+        <CheckoutBox
+          basketAmount={basket.basketAmount}
+          isBasketEmpty={isBasketEmpty}
+          onPress={handleResetBasket}
+        />
       </View>
     </CustomSafeArea>
   );

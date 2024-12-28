@@ -1,9 +1,8 @@
 import React from 'react';
-import CustomText from './CustomText';
-import {commonStyles} from '../theme/commonStyles';
-import {useThemeContext} from '../theme/themeContext';
-import {ActivityIndicator, View, StyleSheet} from 'react-native';
-import {CustomTheme} from '../theme/themes';
+import {styles} from './LoaderAndError.styles';
+import CustomText from './../CustomText/CustomText';
+import {ActivityIndicator, View} from 'react-native';
+import {useThemeContext} from '../../theme/themeContext';
 
 interface LoaderAndErrorProps {
   isLoading?: boolean;
@@ -36,12 +35,5 @@ const LoaderAndError: React.FC<LoaderAndErrorProps> = ({
 
   return null;
 };
-
-const styles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    container: {
-      ...commonStyles(theme).flexCenter,
-    },
-  });
 
 export default LoaderAndError;
