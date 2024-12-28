@@ -30,6 +30,7 @@ export interface CustomTheme extends Theme {
     huge: number;
     borderXs: number;
     borderSm: number;
+    borderMd: number;
   };
 }
 
@@ -46,6 +47,7 @@ export const sizes: CustomTheme['size'] = {
   huge: 48,
   borderXs: 0.5,
   borderSm: 1,
+  borderMd: 4,
 };
 
 export const LightTheme: CustomTheme = {

@@ -25,6 +25,7 @@ const brandIcons: {[key: string]: any} = {
   BMW: require('../assets/images/bmw.png'),
   Jeep: require('../assets/images/jeep.png'),
   Ford: require('../assets/images/ford.png'),
+  profile: require('../assets/images/default_profile.png'),
 };
 
 export default brandIcons;

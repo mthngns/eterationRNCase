@@ -6,7 +6,7 @@ export const styles = (theme: CustomTheme) =>
     headerBox: {
       flexDirection: 'row',
       alignItems: 'center',
-      paddingVertical: theme.size.sm,
+      padding: theme.size.sm,
       borderBottomWidth: 1,
       borderBottomColor: theme.colors.border,
     },
