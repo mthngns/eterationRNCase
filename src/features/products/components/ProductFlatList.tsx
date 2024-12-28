@@ -3,8 +3,8 @@ import {Product} from '../../../types/types';
 import {CustomTheme} from '../../../theme/themes';
 import ProductFlatListCard from './ProductFlatListCard';
 import {useThemeContext} from '../../../theme/themeContext';
-import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
 import LoaderAndError from '../../../components/LoaderEndError';
+import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
 
 interface ProductFlatListProps {
   data: Product[] | undefined;
@@ -43,6 +43,7 @@ const ProductFlatList: React.FC<ProductFlatListProps> = ({
       contentContainerStyle={styles(theme).contentContainer}
       data={data}
       numColumns={2}
+      columnWrapperStyle={styles(theme).columnWrap}
       keyExtractor={(item, index) => `${item.id}-${index}`}
       renderItem={({item}) => (
         <ProductFlatListCard item={item} onPress={onItemPress} />
@@ -71,8 +72,12 @@ const styles = (theme: CustomTheme) =>
     listContainer: {
       flex: 1,
     },
+    columnWrap: {
+      justifyContent: 'space-between',
+    },
     contentContainer: {
       paddingBottom: theme.size.lg,
+      rowGap: theme.size.md,
     },
     footer: {
       height: 48,

@@ -6,8 +6,12 @@ import {RootStackParamList} from '../navigation.types';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Basket} from '../../features/basket';
 import {Profile} from '../../features/profile';
+import {useSelector} from 'react-redux';
+import {getBasket} from '../../features/basket/store/basket';
+import {useThemeContext} from '../../theme/themeContext';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
+
 const getTabBarIcon = (name: string) => {
   return ({
     focused,
@@ -23,6 +27,9 @@ const getTabBarIcon = (name: string) => {
 };
 
 const TabNavigator = () => {
+  const basket = useSelector(getBasket);
+  const basketLength = basket.productList.length;
+  const {theme} = useThemeContext();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -30,11 +37,7 @@ const TabNavigator = () => {
         tabBarShowLabel: false,
         tabBarItemStyle: {paddingTop: 5},
         tabBarStyle: {
-          borderTopRightRadius: 0,
-          borderTopLeftRadius: 0,
           borderTopWidth: 1,
-          borderLeftWidth: 0,
-          borderRightWidth: 0,
         },
       }}>
       <Tab.Screen
@@ -47,7 +50,7 @@ const TabNavigator = () => {
       <Tab.Screen
         options={{
           tabBarIcon: getTabBarIcon('heart'),
-          tabBarBadge: '2',
+          tabBarBadge: undefined,
         }}
         name="Favorites"
         component={Favorites}
@@ -55,7 +58,8 @@ const TabNavigator = () => {
       <Tab.Screen
         options={{
           tabBarIcon: getTabBarIcon('shopping'),
-          tabBarBadge: '2',
+          tabBarBadge: basketLength ? basketLength : undefined,
+          tabBarBadgeStyle: {backgroundColor: theme.colors.primary},
         }}
         name="Basket"
         component={Basket}

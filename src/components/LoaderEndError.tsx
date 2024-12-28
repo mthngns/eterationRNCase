@@ -1,8 +1,9 @@
 import React from 'react';
 import CustomText from './CustomText';
+import {commonStyles} from '../theme/commonStyles';
 import {useThemeContext} from '../theme/themeContext';
 import {ActivityIndicator, View, StyleSheet} from 'react-native';
-import {commonStyles} from '../theme/commonStyles';
+import {CustomTheme} from '../theme/themes';
 
 interface LoaderAndErrorProps {
   isLoading?: boolean;
@@ -19,7 +20,7 @@ const LoaderAndError: React.FC<LoaderAndErrorProps> = ({
 
   if (isLoading || isFetching) {
     return (
-      <View style={styles.container}>
+      <View style={styles(theme).container}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -27,7 +28,7 @@ const LoaderAndError: React.FC<LoaderAndErrorProps> = ({
 
   if (isError) {
     return (
-      <View style={styles.container}>
+      <View style={styles(theme).container}>
         <CustomText>Something went wrong! Try again.</CustomText>
       </View>
     );
@@ -36,10 +37,11 @@ const LoaderAndError: React.FC<LoaderAndErrorProps> = ({
   return null;
 };
 
-const styles = StyleSheet.create({
-  container: {
-    ...commonStyles.flexCenter,
-  },
-});
+const styles = (theme: CustomTheme) =>
+  StyleSheet.create({
+    container: {
+      ...commonStyles(theme).flexCenter,
+    },
+  });
 
 export default LoaderAndError;

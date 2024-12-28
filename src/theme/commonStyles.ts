@@ -1,27 +1,26 @@
-import {ViewStyle} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {CustomTheme} from './themes';
 
-type CommonStylesType = {
-  center: ViewStyle;
-  flexCenter: ViewStyle;
-  rowCenter: ViewStyle;
-  flexBox: ViewStyle;
-};
-
-export const commonStyles: CommonStylesType = {
-  flexBox: {
-    flex: 1,
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  flexCenter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rowCenter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-};
+export const commonStyles = (theme: CustomTheme) =>
+  StyleSheet.create({
+    flexBox: {
+      flex: 1,
+    },
+    center: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    flexCenter: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    rowCenter: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    lgText: {
+      fontSize: theme.size.lg,
+      fontWeight: theme.fonts.heavy.fontWeight,
+    },
+  });

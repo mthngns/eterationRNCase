@@ -52,10 +52,10 @@ export default CheckBox;
 const styles = (theme: CustomTheme) =>
   StyleSheet.create({
     checkboxContainer: {
-      ...commonStyles.center,
+      ...commonStyles(theme).center,
     },
     brandContainer: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       paddingVertical: theme.size.xxs,
       columnGap: theme.size.xs,
     },

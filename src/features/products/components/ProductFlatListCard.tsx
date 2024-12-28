@@ -32,7 +32,7 @@ const ProductFlatListCard: React.FC<ProductFlatListCardProps> = ({
   const basket = useSelector(getBasket);
   const isInBasket = basket.productList.some(product => product.id === item.id);
   const {width} = Dimensions.get('window');
-  const itemWidth = (width - theme.size.xs * 6) / 2;
+  const itemWidth = (width - theme.size.xs * 4) / 2;
   const itemHeight = itemWidth * 1;
 
   const handleAddItemToBasket = (product: Product) => {
@@ -101,14 +101,12 @@ const styles = (theme: CustomTheme) =>
       borderRadius: theme.size.xs,
       borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,
-      margin: theme.size.xs,
-      justifyContent: 'space-between',
     },
     touchableArea: {
       flex: 1,
     },
     brandContainer: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       paddingHorizontal: theme.size.xs,
       paddingVertical: theme.size.md,
       columnGap: theme.size.xs,
@@ -119,7 +117,7 @@ const styles = (theme: CustomTheme) =>
       tintColor: theme.colors.primary,
     },
     productBrand: {
-      fontSize: theme.size.sm,
+      fontSize: theme.size.base,
       fontWeight: theme.fonts.heavy.fontWeight,
       color: theme.colors.text,
     },
@@ -133,23 +131,23 @@ const styles = (theme: CustomTheme) =>
       padding: theme.size.xs,
     },
     productModel: {
-      fontSize: theme.size.sm,
+      fontSize: theme.size.base,
       color: theme.colors.secondaryText,
       paddingVertical: theme.size.xxs,
     },
     productName: {
-      fontSize: theme.size.base,
+      fontSize: theme.size.md,
       fontWeight: theme.fonts.bold.fontWeight,
       color: theme.colors.text,
     },
     productPrice: {
-      fontSize: theme.size.base,
+      fontSize: theme.size.md,
       color: theme.colors.primary,
       marginTop: theme.size.xs,
       fontWeight: theme.fonts.heavy.fontWeight,
     },
     buttonContainer: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       padding: theme.size.xs,
       justifyContent: 'space-between',
       columnGap: theme.size.sm,
@@ -160,7 +158,7 @@ const styles = (theme: CustomTheme) =>
       borderRadius: theme.size.xs,
     },
     buttonText: {
-      fontSize: theme.size.sm,
+      fontSize: theme.size.base,
     },
   });
 

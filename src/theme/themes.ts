@@ -15,6 +15,7 @@ export interface CustomTheme extends Theme {
     darkText: string;
     secondaryBackground: string;
     secondaryText: string;
+    disabledText: string;
   };
   size: {
     xxs: number;
@@ -25,6 +26,7 @@ export interface CustomTheme extends Theme {
     lg: number;
     xl: number;
     xxl: number;
+    xxxl: number;
     huge: number;
     borderXs: number;
     borderSm: number;
@@ -40,6 +42,7 @@ export const sizes: CustomTheme['size'] = {
   lg: 20,
   xl: 24,
   xxl: 32,
+  xxxl: 40,
   huge: 48,
   borderXs: 0.5,
   borderSm: 1,
@@ -55,6 +58,7 @@ export const LightTheme: CustomTheme = {
     text: '#262626',
     notification: '#dc2626',
     secondaryText: '#6b7280',
+    disabledText: '#d1d1d1',
     border: '#e5e5e5',
     light: '#f5f5f5',
     success: '#22c55e',
@@ -78,6 +82,7 @@ export const DarkTheme: CustomTheme = {
     text: '#d4d4d4',
     notification: '#b91c1c',
     secondaryText: '#9ca3af',
+    disabledText: '#535353',
     border: '#262626',
     light: '#f5f5f5',
     success: '#16a34a',

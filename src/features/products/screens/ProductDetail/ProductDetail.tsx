@@ -1,33 +1,46 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
 import Box from '../../../../components/Box';
-import {CustomTheme} from '../../../../theme/themes';
+import {styles} from './ProductDetail.styles';
 import brandIcons from '../../../../utils/brandIcons';
 import CustomText from '../../../../components/CustomText';
-import {commonStyles} from '../../../../theme/commonStyles';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useThemeContext} from '../../../../theme/themeContext';
 import {useGetProductByIdQuery} from '../../services/products';
 import LoaderAndError from '../../../../components/LoaderEndError';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View, ScrollView, Image, TouchableOpacity, Alert} from 'react-native';
 import {ProductDetailProps} from '../../../../navigation/navigation.types';
+import {useAppDispatch} from '../../../../redux/store';
+import {
+  addItemToBasket,
+  getBasket,
+  removeItemToBasket,
+} from '../../../basket/store/basket';
+import {useSelector} from 'react-redux';
 
 export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
+  const insets = useSafeAreaInsets();
   const {id} = route.params;
   const {theme} = useThemeContext();
+  const dispatch = useAppDispatch();
   const {data: product, isLoading, isError} = useGetProductByIdQuery(id);
+  const basket = useSelector(getBasket);
+  const isInBasket = basket.productList.some(item => item.id === product?.id);
+
+  const handleAddItemToBasket = () => {
+    if (product) {
+      dispatch(addItemToBasket({...product, pcs: '1'}));
+      Alert.alert('Added to basket.');
+    }
+  };
+  const handleRemoveItem = () => {
+    if (product) {
+      dispatch(removeItemToBasket(product.id));
+      Alert.alert('Removed to basket.');
+    }
+  };
 
   if (isLoading) {
-    return <LoaderAndError isLoading={isLoading} />;
-  }
-
-  if (!isError) {
     return (
       <SafeAreaView style={styles(theme).container}>
         <View style={styles(theme).headerBox}>
@@ -44,13 +57,39 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
             </CustomText>
           </TouchableOpacity>
         </View>
-        <LoaderAndError isError={!isError} />
+        <LoaderAndError isLoading={isLoading} />
+      </SafeAreaView>
+    );
+  }
+
+  if (isError) {
+    return (
+      <SafeAreaView style={styles(theme).container}>
+        <View style={styles(theme).headerBox}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles(theme).headerButton}>
+            <Icon
+              name="chevron-left"
+              size={theme.size.xxl}
+              color={theme.colors.text}
+            />
+            <CustomText style={styles(theme).headerTitle}>
+              Go Back to Product List
+            </CustomText>
+          </TouchableOpacity>
+        </View>
+        <LoaderAndError isError={isError} />
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles(theme).container}>
+    <View
+      style={[
+        styles(theme).container,
+        {paddingTop: insets.top, paddingBottom: theme.size.md},
+      ]}>
       {product && (
         <>
           <View style={styles(theme).headerBox}>
@@ -117,9 +156,11 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
               </CustomText>
             </Box>
             <View style={styles(theme).actionBox}>
-              <TouchableOpacity style={styles(theme).buttonBox}>
+              <TouchableOpacity
+                style={styles(theme).buttonBox}
+                onPress={isInBasket ? handleRemoveItem : handleAddItemToBasket}>
                 <Icon
-                  name="shopping-outline"
+                  name={isInBasket ? 'shopping' : 'shopping-outline'}
                   size={theme.size.xl}
                   color={theme.colors.primary}
                 />
@@ -135,117 +176,7 @@ export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
           </View>
         </>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
-
-const styles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-      padding: theme.size.sm,
-      rowGap: theme.size.lg,
-    },
-    headerBox: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingVertical: theme.size.sm,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.border,
-    },
-    headerButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    headerTitle: {
-      fontSize: theme.size.md,
-      fontWeight: theme.fonts.bold.fontWeight,
-      color: theme.colors.text,
-      marginLeft: theme.size.xxs,
-    },
-    image: {
-      width: '100%',
-      height: 150,
-      borderWidth: theme.size.borderSm,
-      borderColor: theme.colors.border,
-      borderRadius: theme.size.sm,
-    },
-    infoBox: {
-      ...commonStyles.rowCenter,
-      columnGap: theme.size.lg,
-      overflow: 'hidden',
-      flexWrap: 'nowrap',
-      padding: theme.size.sm,
-    },
-    brandContainer: {
-      ...commonStyles.rowCenter,
-      columnGap: theme.size.xs,
-    },
-    brandIcon: {
-      width: theme.size.xxl,
-      height: theme.size.xxl,
-      tintColor: theme.colors.primary,
-    },
-    boxItem: {
-      flexGrow: 1,
-      flex: 1,
-      flexWrap: 'nowrap',
-      alignSelf: 'stretch',
-      justifyContent: 'center',
-      rowGap: theme.size.xxs,
-    },
-    title: {
-      fontSize: theme.size.base,
-      fontWeight: theme.fonts.bold.fontWeight,
-      color: theme.colors.text,
-    },
-    badgeTitle: {
-      fontSize: theme.size.sm,
-      fontWeight: theme.fonts.heavy.fontWeight,
-      fontStyle: 'italic',
-      color: theme.colors.primary,
-    },
-    descriptionBox: {
-      borderWidth: theme.size.borderSm,
-      borderColor: theme.colors.border,
-      borderRadius: theme.size.sm,
-      backgroundColor: theme.colors.card,
-      padding: theme.size.md,
-    },
-    description: {
-      fontSize: theme.size.base,
-      color: theme.colors.secondaryText,
-      marginTop: theme.size.xs,
-      marginBottom: theme.size.huge,
-    },
-    row: {
-      ...commonStyles.rowCenter,
-      columnGap: theme.size.md,
-      flexWrap: 'nowrap',
-      overflow: 'hidden',
-      alignItems: 'stretch',
-    },
-    actionBox: {
-      ...commonStyles.rowCenter,
-      columnGap: theme.size.md,
-      flexWrap: 'nowrap',
-      overflow: 'hidden',
-      justifyContent: 'flex-end',
-      flexGrow: 1,
-    },
-    price: {
-      fontSize: theme.size.lg,
-      fontWeight: theme.fonts.heavy.fontWeight,
-      color: theme.colors.primary,
-    },
-    buttonBox: {
-      borderWidth: theme.size.borderSm,
-      borderColor: theme.colors.border,
-      borderRadius: theme.size.sm,
-      backgroundColor: theme.colors.card,
-      padding: theme.size.md,
-    },
-  });
-
 export default ProductDetail;
