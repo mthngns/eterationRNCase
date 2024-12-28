@@ -1,7 +1,7 @@
 import React from 'react';
-import CustomText from '../../../../components/CustomText';
 import {useThemeContext} from '../../../../theme/themeContext';
-import ThemedButton from '../../../../components/ThemedButton';
+import CustomText from '../../../../components/CustomText/CustomText';
+import ThemedButton from '../../../../components/ThemedButton/ThemedButton';
 import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 
 export const Profile = () => {

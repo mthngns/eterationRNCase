@@ -1,6 +1,7 @@
 import React, {ReactElement} from 'react';
+import {styles} from './CustomText.styles';
 import {Text, TextProps} from 'react-native';
-import {useThemeContext} from '../theme/themeContext';
+import {useThemeContext} from '../../theme/themeContext';
 
 interface CustomTextProps extends TextProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ const CustomText: React.FC<CustomTextProps> = ({
   const {theme} = useThemeContext();
 
   return (
-    <Text style={[{color: theme.colors.text}, style]} {...props}>
+    <Text style={[styles(theme).text, style]} {...props}>
       {children}
     </Text>
   );

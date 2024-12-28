@@ -1,6 +1,6 @@
 import React from 'react';
-import CustomText from '../CustomText';
 import {styles} from './ScreenHeader.styles';
+import CustomText from '../CustomText/CustomText';
 import {TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useThemeContext} from '../../theme/themeContext';

@@ -5,184 +5,108 @@ import {
   removeItemToBasket,
 } from '../../../basket/store/basket';
 import {useSelector} from 'react-redux';
-import Box from '../../../../components/Box';
-import {styles} from './ProductDetail.styles';
-import brandIcons from '../../../../utils/brandIcons';
-import {useAppDispatch} from '../../../../redux/store';
-import CustomText from '../../../../components/CustomText';
-import {useThemeContext} from '../../../../theme/themeContext';
-import {useGetProductByIdQuery} from '../../services/products';
-import LoaderAndError from '../../../../components/LoaderEndError';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ProductDetailProps} from '../../../../navigation/navigation.types';
-import {View, ScrollView, Image, TouchableOpacity, Alert} from 'react-native';
-import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
-import ScreenHeader from '../../../../components/ScreenHeader/ScreenHeader';
 import {
   addItemToFav,
   getFavorites,
   removeItemToFav,
 } from '../../../favorites/store/favorites';
+import {styles} from './ProductDetail.styles';
+import Box from '../../../../components/Box/Box';
+import {useAppDispatch} from '../../../../redux/store';
+import {View, ScrollView, Image, Alert} from 'react-native';
+import {useThemeContext} from '../../../../theme/themeContext';
+import {useGetProductByIdQuery} from '../../services/products';
+import IconButton from '../../../../components/IconButton/IconButton';
+import CustomText from '../../../../components/CustomText/CustomText';
+import {ProductDetailProps} from '../../../../navigation/navigation.types';
+import ScreenHeader from '../../../../components/ScreenHeader/ScreenHeader';
+import LoaderAndError from '../../../../components/LoaderAndError/LoaderEndError';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
+import ProductAttributesBar from '../../components/ProductAttributesBar/ProductAttributesBar';
 
-export const ProductDetail = ({route, navigation}: ProductDetailProps) => {
+export const ProductDetail = ({route}: ProductDetailProps) => {
   const {id} = route.params;
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
-  const {data: product, isLoading, isError} = useGetProductByIdQuery(id);
+  const {
+    data: product,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetProductByIdQuery(id);
   const basket = useSelector(getBasket);
   const favorites = useSelector(getFavorites);
   const isInBasket = basket.productList.some(item => item.id === product?.id);
   const isInFav = favorites.productList.some(item => item.id === product?.id);
 
-  const handleAddItemToBasket = () => {
-    if (product) {
-      dispatch(addItemToBasket({...product, pcs: '1'}));
-      Alert.alert('Product added to basket.');
-    }
-  };
-  const handleRemoveItemToBasket = () => {
-    if (product) {
-      dispatch(removeItemToBasket(product.id));
-      Alert.alert('Product removed to basket.');
-    }
-  };
-
-  const handleAddItemToFav = () => {
-    if (product) {
-      dispatch(addItemToFav({...product, pcs: '1'}));
-      Alert.alert('Product added to favorites.');
-    }
-  };
-  const handleRemoveItemToFav = () => {
-    if (product) {
-      dispatch(removeItemToFav(product.id));
-      Alert.alert('Product removed to favorites.');
-    }
-  };
-
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <CustomSafeArea>
-        <View style={styles(theme).headerBox}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles(theme).headerButton}>
-            <Icon
-              name="chevron-left"
-              size={theme.size.xxl}
-              color={theme.colors.text}
-            />
-            <CustomText style={styles(theme).headerTitle}>
-              Go Back to Product List
-            </CustomText>
-          </TouchableOpacity>
-        </View>
-        <LoaderAndError isLoading={isLoading} />
+        <ScreenHeader title="Product Detail" />
+        <LoaderAndError isLoading={isLoading || isFetching} />
       </CustomSafeArea>
     );
   }
 
-  if (isError) {
+  if (isError || !product) {
     return (
       <CustomSafeArea>
-        <View style={styles(theme).headerBox}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles(theme).headerButton}>
-            <Icon
-              name="chevron-left"
-              size={theme.size.xxl}
-              color={theme.colors.text}
-            />
-            <CustomText style={styles(theme).headerTitle}>
-              Go Back to Product List
-            </CustomText>
-          </TouchableOpacity>
-        </View>
+        <ScreenHeader title="Product Detail" />
         <LoaderAndError isError={isError} />
       </CustomSafeArea>
     );
   }
 
+  const handleBasketIconPress = () => {
+    isInBasket
+      ? (dispatch(removeItemToBasket(product.id)),
+        Alert.alert('Product removed to basket.'))
+      : (dispatch(addItemToBasket({...product, pcs: '1'})),
+        Alert.alert('Product added to basket.'));
+  };
+
+  const handleFavoritesIconPress = () => {
+    isInFav
+      ? (dispatch(removeItemToFav(product.id)),
+        Alert.alert('Product removed to favorites.'))
+      : (dispatch(addItemToFav(product)),
+        Alert.alert('Product added to favorites.'));
+  };
+
   return (
     <CustomSafeArea>
-      {product && (
-        <>
-          <ScreenHeader title="Product Detail" />
-          <Image
-            source={{uri: product.image}}
-            style={styles(theme).image}
-            resizeMode="cover"
+      <ScreenHeader title="Product Detail" />
+      <Image
+        source={{uri: product.image}}
+        style={styles(theme).image}
+        resizeMode="cover"
+      />
+      <ProductAttributesBar product={product} />
+
+      <ScrollView style={styles(theme).descriptionBox}>
+        <CustomText>Description</CustomText>
+        <CustomText style={styles(theme).descText}>
+          {product.description}
+        </CustomText>
+      </ScrollView>
+
+      <View style={styles(theme).row}>
+        <Box style={{padding: theme.size.md}}>
+          <CustomText style={styles(theme).price}>$ {product.price}</CustomText>
+        </Box>
+        <View style={styles(theme).actionBox}>
+          <IconButton
+            style={{padding: theme.size.md}}
+            onPress={handleFavoritesIconPress}
+            icon={isInFav ? 'heart' : 'heart-outline'}
           />
-          <Box style={styles(theme).infoBox}>
-            <View style={styles(theme).brandContainer}>
-              <Image
-                source={
-                  brandIcons[product.brand.replaceAll(' ', '')] ||
-                  brandIcons.Ferrari
-                }
-                style={styles(theme).brandIcon}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={[styles(theme).boxItem, {flexGrow: theme.size.xxs}]}>
-              <CustomText style={styles(theme).badgeTitle}>Brand</CustomText>
-              <CustomText style={styles(theme).title} numberOfLines={1}>
-                {product.brand}
-              </CustomText>
-            </View>
-            <View style={[styles(theme).boxItem, {flexGrow: theme.size.xxs}]}>
-              <CustomText style={styles(theme).badgeTitle}>Model</CustomText>
-              <CustomText style={styles(theme).title} numberOfLines={1}>
-                {product.model}
-              </CustomText>
-            </View>
-            <View style={[styles(theme).boxItem, {flexGrow: theme.size.xs}]}>
-              <CustomText style={styles(theme).badgeTitle}>Name</CustomText>
-              <CustomText style={styles(theme).title} numberOfLines={1}>
-                {product.name}
-              </CustomText>
-            </View>
-          </Box>
-
-          <ScrollView style={styles(theme).descriptionBox}>
-            <CustomText style={styles(theme).title}>Description</CustomText>
-            <CustomText style={styles(theme).description}>
-              {product.description}
-            </CustomText>
-          </ScrollView>
-
-          <View style={styles(theme).row}>
-            <Box>
-              <CustomText style={styles(theme).price}>
-                $ {product.price}
-              </CustomText>
-            </Box>
-            <View style={styles(theme).actionBox}>
-              <TouchableOpacity
-                style={styles(theme).buttonBox}
-                onPress={
-                  isInBasket ? handleRemoveItemToBasket : handleAddItemToBasket
-                }>
-                <Icon
-                  name={isInBasket ? 'shopping' : 'shopping-outline'}
-                  size={theme.size.xl}
-                  color={theme.colors.primary}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles(theme).buttonBox}
-                onPress={isInFav ? handleRemoveItemToFav : handleAddItemToFav}>
-                <Icon
-                  name={isInFav ? 'heart' : 'heart-outline'}
-                  size={theme.size.xl}
-                  color={theme.colors.primary}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </>
-      )}
+          <IconButton
+            style={{padding: theme.size.md}}
+            onPress={handleBasketIconPress}
+            icon={isInBasket ? 'shopping' : 'shopping-outline'}
+          />
+        </View>
+      </View>
     </CustomSafeArea>
   );
 };

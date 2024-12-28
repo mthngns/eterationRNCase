@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -8,12 +7,13 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
+import React, {useState} from 'react';
 import {styles} from './Search.styles';
-import SearchInput from '../../components/SearchInput';
-import CustomText from '../../../../components/CustomText';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useThemeContext} from '../../../../theme/themeContext';
+import SearchInput from '../../components/SearchInput/SearchInput';
 import {SearchProps} from '../../../../navigation/navigation.types';
+import CustomText from '../../../../components/CustomText/CustomText';
 import {useGetProductsBySearchTermQuery} from '../../services/products';
 import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 import HorizontalProductCard from '../../../../components/HorizontalProductCard/HorizontalProductCard';
@@ -22,7 +22,7 @@ const Search = ({navigation}: SearchProps) => {
   const {theme} = useThemeContext();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const {data, isFetching, error} = useGetProductsBySearchTermQuery(
+  const {data, isLoading, isFetching, error} = useGetProductsBySearchTermQuery(
     searchQuery,
     {
       skip: !searchQuery,
@@ -50,10 +50,15 @@ const Search = ({navigation}: SearchProps) => {
               <CustomText style={styles(theme).buttonText}>Vazgeç</CustomText>
             </TouchableOpacity>
           </View>
-          {isFetching && (
+          {(isFetching || isLoading) && (
             <ActivityIndicator size="large" color={theme.colors.primary} />
           )}
-          {!isFetching && data && searchQuery && !error && (
+          {!isFetching && !isLoading && error && (
+            <CustomText style={styles(theme).errorText}>
+              No products found. Please try something else.
+            </CustomText>
+          )}
+          {data && !error && !isFetching && !isLoading && (
             <View style={styles(theme).resultsContainer}>
               <FlatList
                 data={data}
@@ -68,11 +73,6 @@ const Search = ({navigation}: SearchProps) => {
                   />
                 )}
               />
-              {error && (
-                <CustomText style={styles(theme).errorText}>
-                  No products found. Please try something else.
-                </CustomText>
-              )}
             </View>
           )}
         </CustomSafeArea>

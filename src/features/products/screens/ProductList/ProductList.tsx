@@ -17,16 +17,16 @@ import {Product} from '../../../../types/types';
 import {LIMIT} from '../../../../lib/constants';
 import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import ProfileBar from '../../components/ProfileBar';
-import SearchInput from '../../components/SearchInput';
 import {useAppDispatch} from '../../../../redux/store';
 import {commonStyles} from '../../../../theme/commonStyles';
-import ProductFlatList from '../../components/ProductFlatList';
 import {useThemeContext} from '../../../../theme/themeContext';
-import FiltersMenuModal from '../../components/FiltersMenuModal';
+import ProfileBar from '../../components/ProfileBar/ProfileBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchInput from '../..//components/SearchInput/SearchInput';
 import {ProductListProps} from '../../../../navigation/navigation.types';
 import {useGetProductsWithPaginationQuery} from '../../services/products';
+import ProductFlatList from '../../components/ProductFlatList/ProductFlatList';
+import FiltersMenuModal from '../../components/FiltersMenuModal/FiltersMenuModal';
 import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 
 export const ProductList = ({navigation}: ProductListProps) => {
