@@ -20,9 +20,9 @@ import {View, TouchableOpacity} from 'react-native';
 import {useAppDispatch} from '../../../../redux/store';
 import {commonStyles} from '../../../../theme/commonStyles';
 import {useThemeContext} from '../../../../theme/themeContext';
-import ProfileBar from '../../components/ProfileBar/ProfileBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchInput from '../..//components/SearchInput/SearchInput';
+import EterationBar from '../../components/EterationBar/EterationBar';
 import {ProductListProps} from '../../../../navigation/navigation.types';
 import {useGetProductsWithPaginationQuery} from '../../services/products';
 import ProductFlatList from '../../components/ProductFlatList/ProductFlatList';
@@ -85,7 +85,7 @@ export const ProductList = ({navigation}: ProductListProps) => {
 
   return (
     <CustomSafeArea>
-      <ProfileBar />
+      <EterationBar />
       <View style={{...commonStyles(theme).rowCenter}}>
         <SearchInput
           style={{...commonStyles(theme).flexBox}}
