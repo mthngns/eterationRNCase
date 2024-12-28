@@ -9,6 +9,7 @@ import {Profile} from '../../features/profile';
 import {useSelector} from 'react-redux';
 import {getBasket} from '../../features/basket/store/basket';
 import {useThemeContext} from '../../theme/themeContext';
+import {getFavorites} from '../../features/favorites/store/favorites';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -28,7 +29,9 @@ const getTabBarIcon = (name: string) => {
 
 const TabNavigator = () => {
   const basket = useSelector(getBasket);
+  const favorites = useSelector(getFavorites);
   const basketLength = basket.productList.length;
+  const favLength = favorites.productList.length;
   const {theme} = useThemeContext();
   return (
     <Tab.Navigator
@@ -50,7 +53,8 @@ const TabNavigator = () => {
       <Tab.Screen
         options={{
           tabBarIcon: getTabBarIcon('heart'),
-          tabBarBadge: undefined,
+          tabBarBadge: favLength ? favLength : undefined,
+          tabBarBadgeStyle: {backgroundColor: theme.colors.primary},
         }}
         name="Favorites"
         component={Favorites}

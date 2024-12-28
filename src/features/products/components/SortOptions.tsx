@@ -7,14 +7,14 @@ import CustomText from '../../../components/CustomText';
 import {CustomTheme} from '../../../theme/themes';
 import {commonStyles} from '../../../theme/commonStyles';
 
-interface SortOptionProps {
+interface SortOptionsProps {
   title: string;
   options: SortBy;
   selectedValue: SortMethod;
   onChange: (value: SortMethod) => void;
 }
 
-const SortOption: React.FC<SortOptionProps> = ({
+const SortOptions: React.FC<SortOptionsProps> = ({
   title,
   options,
   onChange,
@@ -68,13 +68,11 @@ const SortOption: React.FC<SortOptionProps> = ({
   );
 };
 
-export default SortOption;
+export default SortOptions;
 
 const styles = (theme: CustomTheme) =>
   StyleSheet.create({
     container: {
-      flex: 1,
-      marginBottom: theme.size.md,
       borderRadius: theme.size.sm,
       borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,

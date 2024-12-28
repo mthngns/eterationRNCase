@@ -20,19 +20,18 @@ import {View, TouchableOpacity} from 'react-native';
 import ProfileBar from '../../components/ProfileBar';
 import SearchInput from '../../components/SearchInput';
 import {useAppDispatch} from '../../../../redux/store';
-import FiltersMenu from '../../components/FiltersMenu';
 import {commonStyles} from '../../../../theme/commonStyles';
 import ProductFlatList from '../../components/ProductFlatList';
 import {useThemeContext} from '../../../../theme/themeContext';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import FiltersMenuModal from '../../components/FiltersMenuModal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ProductListProps} from '../../../../navigation/navigation.types';
 import {useGetProductsWithPaginationQuery} from '../../services/products';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 
 export const ProductList = ({navigation}: ProductListProps) => {
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
-  const insets = useSafeAreaInsets();
 
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => setModalVisible(!isModalVisible);
@@ -85,11 +84,7 @@ export const ProductList = ({navigation}: ProductListProps) => {
   }, [data, dispatch]);
 
   return (
-    <View
-      style={[
-        styles(theme).container,
-        {paddingTop: insets.top, paddingBottom: theme.size.md},
-      ]}>
+    <CustomSafeArea>
       <ProfileBar />
       <View style={{...commonStyles(theme).rowCenter}}>
         <SearchInput
@@ -118,7 +113,7 @@ export const ProductList = ({navigation}: ProductListProps) => {
         onLoadMore={loadMore}
         onItemPress={product => handleNavigateDetail(product.id)}
       />
-      <FiltersMenu isVisible={isModalVisible} onClose={toggleModal} />
-    </View>
+      <FiltersMenuModal isVisible={isModalVisible} onClose={toggleModal} />
+    </CustomSafeArea>
   );
 };

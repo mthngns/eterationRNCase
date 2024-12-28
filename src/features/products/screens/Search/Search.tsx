@@ -13,13 +13,12 @@ import SearchInput from '../../components/SearchInput';
 import CustomText from '../../../../components/CustomText';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useThemeContext} from '../../../../theme/themeContext';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {SearchProps} from '../../../../navigation/navigation.types';
 import {useGetProductsBySearchTermQuery} from '../../services/products';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 import HorizontalProductCard from '../../../../components/HorizontalProductCard/HorizontalProductCard';
 
 const Search = ({navigation}: SearchProps) => {
-  const insets = useSafeAreaInsets();
   const {theme} = useThemeContext();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -35,11 +34,7 @@ const Search = ({navigation}: SearchProps) => {
       style={styles(theme).avoidingView}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={[
-            styles(theme).container,
-            {paddingTop: insets.top, paddingBottom: theme.size.md},
-          ]}>
+        <CustomSafeArea>
           <View style={styles(theme).searchContainer}>
             <SearchInput
               style={styles(theme).input}
@@ -55,12 +50,11 @@ const Search = ({navigation}: SearchProps) => {
               <CustomText style={styles(theme).buttonText}>Vazgeç</CustomText>
             </TouchableOpacity>
           </View>
-
-          <View style={styles(theme).resultsContainer}>
-            {isFetching && (
-              <ActivityIndicator size="large" color={theme.colors.primary} />
-            )}
-            {!isFetching && data && searchQuery && !error && (
+          {isFetching && (
+            <ActivityIndicator size="large" color={theme.colors.primary} />
+          )}
+          {!isFetching && data && searchQuery && !error && (
+            <View style={styles(theme).resultsContainer}>
               <FlatList
                 data={data}
                 contentContainerStyle={styles(theme).listContent}
@@ -74,14 +68,14 @@ const Search = ({navigation}: SearchProps) => {
                   />
                 )}
               />
-            )}
-            {error && (
-              <CustomText style={styles(theme).errorText}>
-                No products found. Please try something else.
-              </CustomText>
-            )}
-          </View>
-        </View>
+              {error && (
+                <CustomText style={styles(theme).errorText}>
+                  No products found. Please try something else.
+                </CustomText>
+              )}
+            </View>
+          )}
+        </CustomSafeArea>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );

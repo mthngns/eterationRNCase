@@ -54,6 +54,7 @@ export const styles = (theme: CustomTheme) =>
     priceBox: {
       flex: 2,
       alignItems: 'flex-end',
+      rowGap: theme.size.sm,
     },
     name: {
       fontSize: theme.size.md,

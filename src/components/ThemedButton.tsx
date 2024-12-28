@@ -40,6 +40,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
       onPress={onPress}
       {...props}>
       <Text
+        numberOfLines={1}
         style={[
           design === 'inline'
             ? styles(theme).inlineButtonText

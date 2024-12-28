@@ -1,24 +1,18 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import CustomText from '../../../../components/CustomText';
 import {useThemeContext} from '../../../../theme/themeContext';
+import ThemedButton from '../../../../components/ThemedButton';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 
 export const Profile = () => {
   const {theme, isDarkTheme, toggleTheme} = useThemeContext();
 
   return (
-    <View style={styles.container}>
-      <Text style={{color: theme.colors.text}}>
+    <CustomSafeArea>
+      <CustomText style={{color: theme.colors.text}}>
         Current Theme: {isDarkTheme ? 'Dark' : 'Light'}
-      </Text>
-      <Button title="Toggle Theme" onPress={toggleTheme} />
-    </View>
+      </CustomText>
+      <ThemedButton title="Toggle Theme" onPress={toggleTheme} />
+    </CustomSafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
