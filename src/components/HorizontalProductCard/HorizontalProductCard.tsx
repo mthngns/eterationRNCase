@@ -51,10 +51,13 @@ const HorizontalProductCard: React.FC<HorizontalProductCardProps> = ({
         {'pcs' in product ? (
           <View style={styles(theme).quantityBox}>
             <TouchableOpacity
-              style={styles(theme).iconButton}
+              style={[
+                styles(theme).iconButton,
+                {transform: [{rotate: '180deg'}]},
+              ]}
               onPress={handleDecrement}>
               <Icon
-                name="arrow-back-ios"
+                name="arrow-forward-ios"
                 size={theme.size.lg}
                 color={theme.colors.text}
               />
