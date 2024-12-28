@@ -6,14 +6,14 @@ import {commonStyles} from '../../../theme/commonStyles';
 import {useThemeContext} from '../../../theme/themeContext';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 
-interface FilterOptionProps {
+interface FilterOptionsProps {
   title: string;
   options: string[];
   selectedOptions: string[];
   onSelect: (option: string) => void;
 }
 
-const FilterOption: React.FC<FilterOptionProps> = ({
+const FilterOptions: React.FC<FilterOptionsProps> = ({
   title,
   options,
   selectedOptions,
@@ -30,8 +30,8 @@ const FilterOption: React.FC<FilterOptionProps> = ({
   return (
     <View style={styles(theme).container}>
       <FlatList
-        style={styles(theme).listWrapper}
         data={sortedOptions}
+        style={styles(theme).listWrapper}
         keyExtractor={item => item}
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
@@ -66,13 +66,12 @@ const FilterOption: React.FC<FilterOptionProps> = ({
   );
 };
 
-export default FilterOption;
+export default FilterOptions;
 
 const styles = (theme: CustomTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      marginBottom: theme.size.md,
       borderRadius: theme.size.sm,
       borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,

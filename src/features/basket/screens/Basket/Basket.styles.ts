@@ -4,12 +4,6 @@ import {commonStyles} from '../../../../theme/commonStyles';
 
 export const styles = (theme: CustomTheme) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-      padding: theme.size.xs,
-      rowGap: theme.size.md,
-    },
     header: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -49,7 +43,6 @@ export const styles = (theme: CustomTheme) =>
       borderRadius: theme.size.sm,
       backgroundColor: theme.colors.card,
     },
-    listContentContainer: {flex: 1},
     amountBox: {
       ...commonStyles(theme).rowCenter,
       columnGap: theme.size.lg,

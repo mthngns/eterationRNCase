@@ -27,5 +27,5 @@ export type ProductDetailProps = StackScreenProps<
 >;
 
 export type SearchProps = StackScreenProps<HomeStackParamList, 'Search'>;
-
 export type BasketProps = StackScreenProps<RootStackParamList, 'Basket'>;
+export type FavoritesProps = StackScreenProps<RootStackParamList, 'Favorites'>;

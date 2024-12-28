@@ -1,9 +1,4 @@
 import {StyleSheet} from 'react-native';
+import {CustomTheme} from '../../../../theme/themes';
 
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+export const styles = (theme: CustomTheme) => StyleSheet.create({});

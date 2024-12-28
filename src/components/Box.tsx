@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, ViewProps, StyleSheet} from 'react-native';
-import {useThemeContext} from '../theme/themeContext';
 import {CustomTheme} from '../theme/themes';
+import {useThemeContext} from '../theme/themeContext';
+import {View, ViewProps, StyleSheet} from 'react-native';
 
 interface BoxProps extends ViewProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Box: React.FC<BoxProps> = ({children, style, ...props}) => {

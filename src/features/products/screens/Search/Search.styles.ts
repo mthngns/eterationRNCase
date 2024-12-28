@@ -38,13 +38,16 @@ export const styles = (theme: CustomTheme) =>
     },
     resultsContainer: {
       flex: 1,
-      borderTopWidth: theme.size.borderSm,
+      overflow: 'hidden',
+      borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,
       backgroundColor: theme.colors.card,
+      borderRadius: theme.size.sm,
     },
     errorText: {
       color: theme.colors.warning,
       textAlign: 'center',
+      paddingTop: theme.size.md,
     },
     listContent: {
       paddingBottom: theme.size.lg,
