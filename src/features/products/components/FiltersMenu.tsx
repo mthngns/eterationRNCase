@@ -8,7 +8,6 @@ import {
   ModalProps,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
 } from 'react-native';
 import {
   getFilters,
@@ -32,6 +31,7 @@ import {useAppDispatch} from '../../../redux/store';
 import {resetProductsState} from '../store/products';
 import {commonStyles} from '../../../theme/commonStyles';
 import {useThemeContext} from '../../../theme/themeContext';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface MenuProps extends ModalProps {
@@ -40,6 +40,7 @@ interface MenuProps extends ModalProps {
 }
 
 const FiltersMenu: React.FC<MenuProps> = ({isVisible, onClose, ...props}) => {
+  const insets = useSafeAreaInsets();
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
 
@@ -80,9 +81,13 @@ const FiltersMenu: React.FC<MenuProps> = ({isVisible, onClose, ...props}) => {
       onRequestClose={onClose}
       {...props}>
       <KeyboardAvoidingView
-        style={commonStyles.flexBox}
+        style={commonStyles(theme).flexBox}
         behavior={Platform.OS === 'ios' ? 'height' : undefined}>
-        <SafeAreaView style={styles(theme).container}>
+        <View
+          style={[
+            styles(theme).container,
+            {paddingTop: insets.top, paddingBottom: theme.size.xs},
+          ]}>
           <View style={styles(theme).header}>
             <TouchableOpacity onPress={onClose}>
               <Icon
@@ -122,7 +127,7 @@ const FiltersMenu: React.FC<MenuProps> = ({isVisible, onClose, ...props}) => {
               onSelect={handleSelectModel}
             />
           </View>
-        </SafeAreaView>
+        </View>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -140,7 +145,7 @@ const styles = (theme: CustomTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: theme.size.md,
+      padding: theme.size.xs,
       borderBottomWidth: 1,
       borderBottomColor: theme.colors.border,
     },

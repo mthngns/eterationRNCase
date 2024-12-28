@@ -2,24 +2,24 @@ import React, {useState} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
-  StyleSheet,
   TouchableWithoutFeedback,
   View,
   FlatList,
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import {CustomTheme} from '../../../../theme/themes';
+import {styles} from './Search.styles';
 import SearchInput from '../../components/SearchInput';
 import CustomText from '../../../../components/CustomText';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useThemeContext} from '../../../../theme/themeContext';
-import ProductSearchCard from '../../components/ProductSearchCard';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {SearchProps} from '../../../../navigation/navigation.types';
 import {useGetProductsBySearchTermQuery} from '../../services/products';
+import HorizontalProductCard from '../../../../components/HorizontalProductCard/HorizontalProductCard';
 
 const Search = ({navigation}: SearchProps) => {
+  const insets = useSafeAreaInsets();
   const {theme} = useThemeContext();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -35,7 +35,11 @@ const Search = ({navigation}: SearchProps) => {
       style={styles(theme).avoidingView}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles(theme).container}>
+        <View
+          style={[
+            styles(theme).container,
+            {paddingTop: insets.top, paddingBottom: theme.size.md},
+          ]}>
           <View style={styles(theme).searchContainer}>
             <SearchInput
               style={styles(theme).input}
@@ -59,75 +63,28 @@ const Search = ({navigation}: SearchProps) => {
             {!isFetching && data && searchQuery && !error && (
               <FlatList
                 data={data}
+                contentContainerStyle={styles(theme).listContent}
                 keyExtractor={item => item.id}
                 renderItem={({item}) => (
-                  <ProductSearchCard
+                  <HorizontalProductCard
                     product={item}
                     onPress={() =>
                       navigation.navigate('ProductDetail', {id: item.id})
                     }
                   />
                 )}
-                contentContainerStyle={styles(theme).listContent}
               />
             )}
             {error && (
               <CustomText style={styles(theme).errorText}>
-                No results found. Please try something else.
+                No products found. Please try something else.
               </CustomText>
             )}
           </View>
-        </SafeAreaView>
+        </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };
 
 export default Search;
-
-const styles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    avoidingView: {
-      flex: 1,
-    },
-    container: {
-      flex: 1,
-      rowGap: theme.size.md,
-    },
-    searchContainer: {
-      flexDirection: 'row',
-      margin: theme.size.xs,
-      columnGap: theme.size.xxs,
-      alignItems: 'center',
-    },
-    input: {
-      flex: 1,
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-    button: {
-      flex: 1,
-      backgroundColor: theme.colors.card,
-      borderWidth: theme.size.borderSm,
-      borderColor: theme.colors.border,
-      borderTopRightRadius: 50,
-      borderBottomRightRadius: 50,
-      paddingHorizontal: theme.size.sm,
-      justifyContent: 'center',
-    },
-    buttonText: {
-      fontSize: theme.size.sm,
-      fontWeight: theme.fonts.medium.fontWeight,
-      color: theme.colors.primary,
-    },
-    resultsContainer: {
-      flex: 1,
-    },
-    errorText: {
-      color: theme.colors.warning,
-      textAlign: 'center',
-    },
-    listContent: {
-      paddingBottom: theme.size.lg,
-    },
-  });

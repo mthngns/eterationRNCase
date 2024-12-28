@@ -58,7 +58,7 @@ const styles = (theme: CustomTheme) =>
       padding: theme.size.sm,
       borderRadius: theme.size.xxl,
       borderWidth: theme.size.borderSm,
-      ...commonStyles.center,
+      ...commonStyles(theme).center,
       backgroundColor: theme.colors.primary,
       borderColor: theme.colors.border,
     },
@@ -66,7 +66,7 @@ const styles = (theme: CustomTheme) =>
       padding: theme.size.sm,
       borderRadius: theme.size.xxl,
       borderWidth: theme.size.borderSm,
-      ...commonStyles.center,
+      ...commonStyles(theme).center,
       borderColor: theme.colors.primary,
     },
     inlineButtonText: {

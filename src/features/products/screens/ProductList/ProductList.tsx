@@ -12,26 +12,27 @@ import {
 } from '../../store/products';
 import {useSelector} from 'react-redux';
 import {api} from '../../../../redux/api';
+import {styles} from './ProductList.styles';
 import {Product} from '../../../../types/types';
 import {LIMIT} from '../../../../lib/constants';
 import React, {useEffect, useState} from 'react';
-import {CustomTheme} from '../../../../theme/themes';
+import {View, TouchableOpacity} from 'react-native';
 import ProfileBar from '../../components/ProfileBar';
 import SearchInput from '../../components/SearchInput';
 import {useAppDispatch} from '../../../../redux/store';
 import FiltersMenu from '../../components/FiltersMenu';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {commonStyles} from '../../../../theme/commonStyles';
 import ProductFlatList from '../../components/ProductFlatList';
 import {useThemeContext} from '../../../../theme/themeContext';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useGetProductsWithPaginationQuery} from '../../services/products';
 import {ProductListProps} from '../../../../navigation/navigation.types';
+import {useGetProductsWithPaginationQuery} from '../../services/products';
 
 export const ProductList = ({navigation}: ProductListProps) => {
   const {theme} = useThemeContext();
   const dispatch = useAppDispatch();
+  const insets = useSafeAreaInsets();
 
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => setModalVisible(!isModalVisible);
@@ -84,11 +85,15 @@ export const ProductList = ({navigation}: ProductListProps) => {
   }, [data, dispatch]);
 
   return (
-    <SafeAreaView style={styles(theme).container}>
+    <View
+      style={[
+        styles(theme).container,
+        {paddingTop: insets.top, paddingBottom: theme.size.md},
+      ]}>
       <ProfileBar />
-      <View style={{...commonStyles.rowCenter}}>
+      <View style={{...commonStyles(theme).rowCenter}}>
         <SearchInput
-          style={{...commonStyles.flexBox}}
+          style={{...commonStyles(theme).flexBox}}
           autoFocus={false}
           placeholder="Search by name..."
           onPress={handleNavigateSearch}
@@ -114,23 +119,6 @@ export const ProductList = ({navigation}: ProductListProps) => {
         onItemPress={product => handleNavigateDetail(product.id)}
       />
       <FiltersMenu isVisible={isModalVisible} onClose={toggleModal} />
-    </SafeAreaView>
+    </View>
   );
 };
-
-const styles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: theme.size.xs,
-      rowGap: theme.size.md,
-    },
-    filterMenuButton: {
-      ...commonStyles.center,
-      padding: theme.size.xs,
-    },
-    filterMenuIcon: {
-      marginHorizontal: theme.size.xxs,
-      color: theme.colors.primary,
-    },
-  });

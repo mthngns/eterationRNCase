@@ -73,7 +73,10 @@ const styles = (theme: CustomTheme) =>
     container: {
       flex: 1,
       marginBottom: theme.size.md,
-      backgroundColor: theme.colors.card,
+      borderRadius: theme.size.sm,
+      borderWidth: theme.size.borderSm,
+      borderColor: theme.colors.border,
+      overflow: 'hidden',
     },
     listWrapper: {
       borderWidth: theme.size.borderSm,
@@ -82,7 +85,7 @@ const styles = (theme: CustomTheme) =>
       paddingHorizontal: theme.size.sm,
     },
     headerBox: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       justifyContent: 'space-between',
       paddingVertical: theme.size.sm,
       borderBottomWidth: 1,
@@ -100,7 +103,7 @@ const styles = (theme: CustomTheme) =>
       color: theme.colors.primary,
     },
     optionContainer: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       paddingVertical: theme.size.xs,
       borderBottomWidth: 1,
       borderBottomColor: theme.colors.border,

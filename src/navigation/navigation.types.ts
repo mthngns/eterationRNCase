@@ -1,3 +1,4 @@
+import {NavigatorScreenParams} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
 
 export type HomeStackParamList = {
@@ -9,7 +10,7 @@ export type HomeStackParamList = {
 };
 
 export type RootStackParamList = {
-  Home: HomeStackParamList;
+  Home: NavigatorScreenParams<HomeStackParamList>;
   Favorites: undefined;
   Basket: undefined;
   Profile: undefined;
@@ -26,3 +27,5 @@ export type ProductDetailProps = StackScreenProps<
 >;
 
 export type SearchProps = StackScreenProps<HomeStackParamList, 'Search'>;
+
+export type BasketProps = StackScreenProps<RootStackParamList, 'Basket'>;

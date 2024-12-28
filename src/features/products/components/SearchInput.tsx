@@ -29,7 +29,7 @@ const SearchInput: React.FC<TextInputProps> = ({style, ...props}) => {
 const styles = (theme: CustomTheme) =>
   StyleSheet.create({
     container: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       borderWidth: theme.size.borderSm,
       borderRadius: theme.size.xxl,
       overflow: 'hidden',

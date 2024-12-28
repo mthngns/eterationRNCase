@@ -63,6 +63,13 @@ const basketSlice = createSlice({
         }
       }
     },
+
+    removeItemToBasket: (state, action) => {
+      state.productList = state.productList.filter(
+        item => item.id !== action.payload,
+      );
+      state.basketAmount = calculateBasketAmount(state.productList);
+    },
   },
 });
 
@@ -71,6 +78,7 @@ export const {
   addItemToBasket,
   incrementProductQuantity,
   decrementProductQuantity,
+  removeItemToBasket,
 } = basketSlice.actions;
 export const basketReducer = basketSlice.reducer;
 

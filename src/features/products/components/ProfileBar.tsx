@@ -26,7 +26,7 @@ const ProfileBar = () => {
 const styles = (theme: CustomTheme) =>
   StyleSheet.create({
     container: {
-      ...commonStyles.rowCenter,
+      ...commonStyles(theme).rowCenter,
       justifyContent: 'space-between',
     },
     text: {
