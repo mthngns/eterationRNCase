@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '../Box';
-import CustomText from '../CustomText';
+import Box from '../Box/Box';
 import {styles} from './ListEmptyState.styles';
+import CustomText from '../CustomText/CustomText';
 
 const ListEmptyState = ({title}: {title?: string}) => {
   return (

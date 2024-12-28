@@ -6,10 +6,6 @@ export const styles = (theme: CustomTheme) =>
     avoidingView: {
       flex: 1,
     },
-    container: {
-      flex: 1,
-      rowGap: theme.size.xs,
-    },
     searchContainer: {
       flexDirection: 'row',
       margin: theme.size.xs,
@@ -36,6 +32,11 @@ export const styles = (theme: CustomTheme) =>
       fontWeight: theme.fonts.medium.fontWeight,
       color: theme.colors.primary,
     },
+    errorText: {
+      color: theme.colors.warning,
+      textAlign: 'center',
+      paddingTop: theme.size.md,
+    },
     resultsContainer: {
       flex: 1,
       overflow: 'hidden',
@@ -43,11 +44,6 @@ export const styles = (theme: CustomTheme) =>
       borderColor: theme.colors.border,
       backgroundColor: theme.colors.card,
       borderRadius: theme.size.sm,
-    },
-    errorText: {
-      color: theme.colors.warning,
-      textAlign: 'center',
-      paddingTop: theme.size.md,
     },
     listContent: {
       paddingBottom: theme.size.lg,

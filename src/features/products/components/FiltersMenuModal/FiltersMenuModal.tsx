@@ -10,19 +10,19 @@ import {
   setSelectedBrands,
   setSelectedModels,
   setSortMethod,
-} from '../store/filters';
-import SortOptions from './SortOptions';
+} from '../../store/filters';
 import {useSelector} from 'react-redux';
-import FilterOptions from './FilterOptions';
-import {SortMethod} from '../../../types/types';
-import {SORT_METHODS} from '../../../lib/constants';
-import {useAppDispatch} from '../../../redux/store';
-import {resetProductsState} from '../store/products';
-import {commonStyles} from '../../../theme/commonStyles';
-import {useThemeContext} from '../../../theme/themeContext';
-import ScreenHeader from '../../../components/ScreenHeader/ScreenHeader';
+import {SortMethod} from '../../../../types/types';
+import SortOptions from '../SortOptions/SortOptions';
+import {SORT_METHODS} from '../../../../lib/constants';
+import {useAppDispatch} from '../../../../redux/store';
+import {resetProductsState} from '../../store/products';
+import FilterOptions from '../FilterOptions/FilterOptions';
+import {commonStyles} from '../../../../theme/commonStyles';
+import {useThemeContext} from '../../../../theme/themeContext';
+import ScreenHeader from '../../../../components/ScreenHeader/ScreenHeader';
 import {Modal, ModalProps, KeyboardAvoidingView, Platform} from 'react-native';
-import {CustomSafeArea} from '../../../components/CustomSafeArea/CustomSafeArea';
+import {CustomSafeArea} from '../../../../components/CustomSafeArea/CustomSafeArea';
 
 interface FiltersMenuModalProps extends ModalProps {
   isVisible: boolean;

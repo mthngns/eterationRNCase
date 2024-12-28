@@ -1,10 +1,10 @@
 import React from 'react';
-import {Product} from '../../../types/types';
-import {CustomTheme} from '../../../theme/themes';
-import ProductFlatListCard from './ProductFlatListCard';
-import {useThemeContext} from '../../../theme/themeContext';
-import LoaderAndError from '../../../components/LoaderEndError';
-import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
+import {styles} from './ProductFlatList.styles';
+import {Product} from '../../../../types/types';
+import {useThemeContext} from '../../../../theme/themeContext';
+import {FlatList, View, ActivityIndicator} from 'react-native';
+import ProductFlatListCard from '../ProductFlatListCard/ProductFlatListCard';
+import LoaderAndError from '../../../../components/LoaderAndError/LoaderEndError';
 
 interface ProductFlatListProps {
   data: Product[] | undefined;
@@ -66,26 +66,5 @@ const ProductFlatList: React.FC<ProductFlatListProps> = ({
     />
   );
 };
-
-const styles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    listContainer: {
-      flex: 1,
-    },
-    columnWrap: {
-      justifyContent: 'space-between',
-    },
-    contentContainer: {
-      paddingBottom: theme.size.lg,
-      rowGap: theme.size.md,
-    },
-    footer: {
-      height: 48,
-    },
-    indicator: {
-      marginVertical: theme.size.xl,
-      paddingBottom: theme.size.xxl,
-    },
-  });
 
 export default ProductFlatList;

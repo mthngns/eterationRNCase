@@ -1,31 +1,23 @@
 import React from 'react';
 import {
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  Dimensions,
-  View,
-} from 'react-native';
-import {
   addItemToBasket,
   getBasket,
   removeItemToBasket,
-} from '../../basket/store/basket';
+} from '../../../basket/store/basket';
+import {useSelector} from 'react-redux';
 import {
   addItemToFav,
   getFavorites,
   removeItemToFav,
-} from '../../favorites/store/favorites';
-import {useSelector} from 'react-redux';
-import {Product} from '../../../types/types';
-import {CustomTheme} from '../../../theme/themes';
-import {useAppDispatch} from '../../../redux/store';
-import {commonStyles} from '../../../theme/commonStyles';
-import {useThemeContext} from '../../../theme/themeContext';
-import ThemedButton from '../../../components/ThemedButton';
+} from '../../../favorites/store/favorites';
+import {Product} from '../../../../types/types';
+import {styles} from './ProductFlatListCard.styles';
+import {useAppDispatch} from '../../../../redux/store';
+import {useThemeContext} from '../../../../theme/themeContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import BrandBadge from '../../../components/BrandBadge/BrandBadge';
+import BrandBadge from '../../../../components/BrandBadge/BrandBadge';
+import ThemedButton from '../../../../components/ThemedButton/ThemedButton';
+import {Text, TouchableOpacity, Image, Dimensions, View} from 'react-native';
 
 interface ProductFlatListCardProps {
   item: Product;
@@ -97,77 +89,5 @@ const ProductFlatListCard: React.FC<ProductFlatListCardProps> = ({
     </View>
   );
 };
-
-const styles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    cardContainer: {
-      flex: 1,
-      backgroundColor: theme.colors.card,
-      borderRadius: theme.size.xs,
-      borderWidth: theme.size.borderSm,
-      borderColor: theme.colors.border,
-      overflow: 'hidden',
-    },
-    touchableArea: {
-      flex: 1,
-      overflow: 'hidden',
-    },
-    brandContainer: {
-      ...commonStyles(theme).rowCenter,
-      paddingHorizontal: theme.size.xs,
-      paddingVertical: theme.size.md,
-      columnGap: theme.size.xs,
-    },
-    brandIcon: {
-      width: theme.size.lg,
-      height: theme.size.lg,
-      tintColor: theme.colors.primary,
-    },
-    productBrand: {
-      fontSize: theme.size.base,
-      fontWeight: theme.fonts.heavy.fontWeight,
-      color: theme.colors.text,
-    },
-    productImage: {
-      width: '100%',
-      height: 120,
-    },
-    infoContainer: {
-      flex: 1,
-      justifyContent: 'space-between',
-      padding: theme.size.xs,
-      rowGap: theme.size.xs,
-    },
-    productModel: {
-      fontSize: theme.size.base,
-      color: theme.colors.secondaryText,
-      paddingVertical: theme.size.xxs,
-    },
-    productName: {
-      fontSize: theme.size.md,
-      fontWeight: theme.fonts.bold.fontWeight,
-      color: theme.colors.text,
-    },
-    productPrice: {
-      fontSize: theme.size.md,
-      color: theme.colors.primary,
-      marginTop: theme.size.xs,
-      fontWeight: theme.fonts.heavy.fontWeight,
-    },
-    buttonContainer: {
-      ...commonStyles(theme).rowCenter,
-      padding: theme.size.xs,
-      justifyContent: 'space-between',
-      columnGap: theme.size.sm,
-    },
-    button: {
-      flex: 1,
-      padding: theme.size.xs,
-      borderRadius: theme.size.xs,
-    },
-    buttonText: {
-      fontSize: theme.size.base,
-    },
-  });
 
 export default React.memo(ProductFlatListCard);

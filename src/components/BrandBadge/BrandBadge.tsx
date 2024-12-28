@@ -1,9 +1,9 @@
-import CustomText from '../CustomText';
-import {Image, ImageStyle, View} from 'react-native';
 import React, {ReactElement} from 'react';
 import {Product} from '../../types/types';
 import {styles} from './BrandBadge.styles';
 import brandIcons from '../../utils/brandIcons';
+import CustomText from '../CustomText/CustomText';
+import {Image, ImageStyle, View} from 'react-native';
 import {useThemeContext} from '../../theme/themeContext';
 
 interface BrandPageProps {

@@ -1,16 +1,14 @@
 import {StyleSheet} from 'react-native';
-import {CustomTheme} from '../../../../theme/themes';
+import {CustomTheme} from '../../theme/themes';
 
 export const styles = (theme: CustomTheme) =>
   StyleSheet.create({
-    content: {
-      flex: 1,
-      rowGap: theme.size.md,
-    },
-    listContainer: {
+    box: {
       borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,
       borderRadius: theme.size.sm,
       backgroundColor: theme.colors.card,
+      padding: theme.size.md,
+      rowGap: theme.size.xxl,
     },
   });
