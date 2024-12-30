@@ -6,10 +6,10 @@ import {
   FlatList,
   ActivityIndicator,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
 import {styles} from './Search.styles';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useThemeContext} from '../../../../theme/themeContext';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import {SearchProps} from '../../../../navigation/navigation.types';

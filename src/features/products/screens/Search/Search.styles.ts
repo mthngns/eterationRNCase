@@ -18,7 +18,6 @@ export const styles = (theme: CustomTheme) =>
       borderBottomRightRadius: 0,
     },
     button: {
-      flex: 1,
       backgroundColor: theme.colors.card,
       borderWidth: theme.size.borderSm,
       borderColor: theme.colors.border,
@@ -26,6 +25,7 @@ export const styles = (theme: CustomTheme) =>
       borderBottomRightRadius: 50,
       paddingHorizontal: theme.size.sm,
       justifyContent: 'center',
+      alignSelf: 'stretch',
     },
     buttonText: {
       fontSize: theme.size.sm,
